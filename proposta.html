@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Proposta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="pages-wrapper">
+
+        <!-- PÁGINA 1 -->
+        <div class="page center-page" id="page1">
+            <div class="center-text-slide1">
+                <h1 id="destinoCampo"></h1>
+                <h2 id="mesAnoCampo"></h2>
+            </div>
+            <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
+        </div>
+
+        <!-- PÁGINA 2 -->
+        <div class="page" id="page2">
+            <img src="assets/logo.png" class="logo" alt="Logo">
+            <h1 id="chegadaCampo"></h1>
+            <div class="moldura"><img id="imgFoto01" src=""></div>
+            <p><strong>✈️➡️🚖 Transfer:</strong> <span id="trasladoCampo"></span></p>
+            <div class="linha-fotos">
+                <div class="moldura"><img id="imgFoto02" src=""></div>
+                <div class="moldura"><img id="imgFoto03" src=""></div>
+            </div>
+            <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
+        </div>
+
+        <!-- PÁGINA 3: HOSPEDAGEM -->
+        <div class="page" id="page3">
+            <img src="assets/logo.png" class="logo" alt="Logo">
+            <h1 id="tituloHospedagemCampo"></h1>
+
+            <div class="infos">
+                <div class="checks">
+                    <div class="bloco">
+                        <h2>Check in</h2>
+                        <p id="hotelCheckinCampo"></p>
+                    </div>
+                    <div class="bloco">
+                        <h2>Check out</h2>
+                        <p id="hotelCheckoutCampo"></p>
+                    </div>
+                </div>
+
+                <div class="bloco">
+                    <h2>Descrição do Hotel:</h2>
+                    <p id="descricaoCampo"></p>
+                </div>
+
+                <div class="bloco">
+                    <h2>Dispõe de:</h2>
+                    <p id="hotelServicosCampo"></p>
+                </div>
+
+                <div class="bloco">
+                    <h2>Endereço:</h2>
+                    <p id="enderecoCampo"></p>
+                </div>
+            </div>
+
+            <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
+        </div>
+
+        <!-- PÁGINA 4: Carrossel de Fotos do Hotel (até 8 imagens) -->
+        <div class="page" id="page4">
+            <img src="assets/logo.png" class="logo" alt="Logo">
+            <h1>Fotos da Hospedagem</h1>
+
+            <div id="carrossel-hotel" class="carrossel">
+                <div id="carrossel-images-hotel" class="carrossel-images">
+                    <!-- Imagens do hotel serão inseridas aqui dinamicamente -->
+                </div>
+
+                <div class="carrossel-controls">
+                    <button class="carrossel-prev" onclick="prevSlideHotel()">❮</button>
+                    <div class="carrossel-dots" id="carrossel-dots-hotel">
+                        <!-- Pontos serão inseridos dinamicamente -->
+                    </div>
+                    <button class="carrossel-next" onclick="nextSlideHotel()">❯</button>
+                </div>
+
+                <div class="carrossel-counter" id="carrossel-counter-hotel">
+                    <!-- Contador será atualizado dinamicamente -->
+                </div>
+            </div>
+
+            <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
+        </div>
+
+        <!-- CONTAINER PARA DESTINOS DINÂMICOS -->
+        <div id="destinos-container">
+            <!-- Os destinos serão inseridos aqui dinamicamente -->
+        </div>
+
+        <!-- PÁGINA PARA DICAS -->
+        <div class="page" id="page-dicas">
+            <img src="assets/logo.png" class="logo" alt="Logo">
+            <h1>Dicas Importantes</h1>
+            <div id="dicasCampo" class="dicas"></div>
+            <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
+        </div>
+
+        <!-- PÁGINA PARA VALORES -->
+        <div class="page" id="page-valores">
+            <img src="assets/logo.png" class="logo" alt="Logo">
+            <h1>Valores do Pacote</h1>
+
+            <div class="price-card">
+                <div class="items" id="itemsList">
+                    <!-- Itens serão inseridos dinamicamente -->
+                </div>
+                <div class="pay-methods"></div>
+            </div>
+            <p>✈️ Valores sujeitos a alterações sem aviso prévio.</p>
+
+            <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
+        </div>
+
+    </div> <!-- FIM DO pages-wrapper -->
+
+    <script src="script-proposta.js"></script>
+</body>
+
+</html>
