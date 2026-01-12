@@ -2,62 +2,9 @@ import { salvarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("formCotacao");
-    const multidestinosContainer = document.getElementById("multidestinos-container");
-    const adicionarDestinoBtn = document.getElementById("adicionar-destino-btn");
-    const carrosselContainer = document.getElementById("carrossel-hotel-container");
-    const adicionarImagemBtn = document.getElementById("adicionar-imagem-hotel-btn");
+    if (!form) return;
 
-    let destinoCount = 0;
-    let imagemCount = 0;
-
-    // Função para adicionar destino
-    const adicionarDestino = () => {
-        if (destinoCount >= 20) return;
-        destinoCount++;
-        const div = document.createElement("div");
-        div.className = "destino-bloco";
-        div.innerHTML = `
-            <h3>Destino ${destinoCount}</h3>
-            <label>Nome:</label>
-            <input type="text" class="destino-nome">
-            <label>Passeios:</label>
-            <textarea class="destino-passeios" rows="3"></textarea>
-            <label>Dicas:</label>
-            <textarea class="destino-dicas" rows="2"></textarea>
-            <button type="button" class="remover-destino">Remover</button>
-        `;
-        multidestinosContainer.appendChild(div);
-
-        div.querySelector(".remover-destino").onclick = () => {
-            div.remove();
-            destinoCount--;
-        };
-    };
-
-    adicionarDestinoBtn.onclick = adicionarDestino;
-
-    // Função para adicionar imagens hotel
-    const adicionarImagem = () => {
-        if (imagemCount >= 8) return;
-        imagemCount++;
-        const div = document.createElement("div");
-        div.className = "carrossel-item";
-        div.innerHTML = `
-            <h4>Imagem ${imagemCount}</h4>
-            <input type="text" class="carrossel-imagem" placeholder="URL da imagem">
-            <button type="button" class="remover-imagem">Remover</button>
-        `;
-        carrosselContainer.appendChild(div);
-
-        div.querySelector(".remover-imagem").onclick = () => {
-            div.remove();
-            imagemCount--;
-        };
-    };
-
-    adicionarImagemBtn.onclick = adicionarImagem;
-
-    // Form submit
+    // ===== SUBMIT FORMULÁRIO =====
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -84,17 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
             destinosMultiplos: []
         };
 
-        // Carrossel imagens hotel
-        document.querySelectorAll(".carrossel-imagem").forEach(input => {
-            if (input.value.trim()) dados.carrosselImagensHotel.push(input.value.trim());
+        // ===== CARROSSEL HOTEL =====
+        document.querySelectorAll(".carrossel-imagem").forEach(img => {
+            if (img.value.trim()) dados.carrosselImagensHotel.push(img.value.trim());
         });
 
-        // Destinos múltiplos
-        multidestinosContainer.querySelectorAll(".destino-bloco").forEach((div, i) => {
-            const nome = div.querySelector(".destino-nome")?.value.trim() || "";
-            const passeios = div.querySelector(".destino-passeios")?.value.trim() || "";
-            const dicas = div.querySelector(".destino-dicas")?.value.trim() || "";
-            if (nome || passeios || dicas) dados.destinosMultiplos.push({ index: i+1, nome, passeios, dicas });
+        // ===== MULTI DESTINOS =====
+        document.querySelectorAll(".destino-item").forEach((destinoDiv, index) => {
+            const nome = destinoDiv.querySelector(".destino-nome")?.value.trim() || "";
+            const passeios = destinoDiv.querySelector(".destino-passeios")?.value.trim() || "";
+            const dicas = destinoDiv.querySelector(".destino-dicas")?.value.trim() || "";
+            if (nome || passeios || dicas) dados.destinosMultiplos.push({ index: index + 1, nome, passeios, dicas });
         });
 
         try {
@@ -106,12 +53,55 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Limpar formulário
-    document.getElementById("limparFormularioBtn")?.addEventListener("click", () => {
-        form.reset();
-        multidestinosContainer.innerHTML = "";
-        carrosselContainer.innerHTML = "";
-        destinoCount = 0;
-        imagemCount = 0;
+    // ===== LIMPAR FORMULÁRIO =====
+    const limparBtn = document.getElementById("limparFormularioBtn");
+    if (limparBtn) limparBtn.addEventListener("click", () => form.reset());
+
+    // ===== ADICIONAR IMAGEM HOTEL =====
+    const adicionarImagemBtn = document.getElementById("adicionar-imagem-hotel-btn");
+    adicionarImagemBtn.addEventListener("click", () => {
+        const container = document.getElementById("carrossel-hotel-container");
+        const count = container.querySelectorAll(".carrossel-item").length;
+        if (count >= 8) return alert("Máximo de 8 imagens.");
+
+        const div = document.createElement("div");
+        div.className = "carrossel-item";
+        div.innerHTML = `
+            <h4>Imagem ${count + 1}</h4>
+            <input type="text" class="carrossel-imagem" placeholder="URL da imagem">
+            <button type="button" class="remover-imagem">Remover</button>
+        `;
+        container.appendChild(div);
+        div.querySelector(".remover-imagem").addEventListener("click", () => div.remove());
+    });
+
+    // ===== ADICIONAR DESTINO =====
+    const adicionarDestinoBtn = document.getElementById("adicionar-destino-btn");
+    adicionarDestinoBtn.addEventListener("click", () => {
+        const container = document.getElementById("multidestinos-container");
+        const count = container.querySelectorAll(".destino-item").length;
+        if (count >= 20) return alert("Máximo de 20 destinos.");
+
+        const div = document.createElement("div");
+        div.className = "destino-item";
+        div.innerHTML = `
+            <h3>Destino ${count + 1}</h3>
+            <div class="destino-inputs">
+                <label>Nome:</label>
+                <input type="text" class="destino-nome">
+                <label>Passeios:</label>
+                <textarea class="destino-passeios" rows="3"></textarea>
+                <label>Dicas:</label>
+                <textarea class="destino-dicas" rows="2"></textarea>
+                <button type="button" class="remover-destino">Remover Destino</button>
+            </div>
+        `;
+        container.appendChild(div);
+        div.querySelector(".remover-destino").addEventListener("click", () => div.remove());
+    });
+
+    // ===== REMOVER IMAGENS EXISTENTES =====
+    document.querySelectorAll(".remover-imagem").forEach(btn => {
+        btn.addEventListener("click", e => e.target.parentElement.remove());
     });
 });
