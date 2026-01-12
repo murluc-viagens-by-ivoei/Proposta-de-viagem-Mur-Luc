@@ -254,3 +254,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     console.log("✅ Proposta renderizada com sucesso");
 });
+
