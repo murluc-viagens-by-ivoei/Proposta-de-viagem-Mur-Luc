@@ -4,7 +4,93 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("formCotacao");
     if (!form) return;
 
-    // ===== SUBMIT FORMULÁRIO =====
+    // =========================
+    // CARROSSEL DE IMAGENS DO HOTEL
+    // =========================
+    const carrosselContainer = document.getElementById("carrossel-hotel-container");
+    const adicionarImagemBtn = document.getElementById("adicionar-imagem-hotel-btn");
+
+    function atualizarTextoBotao() {
+        const total = carrosselContainer.querySelectorAll(".carrossel-imagem").length;
+        adicionarImagemBtn.textContent = `+ Adicionar imagem (${total}/8)`;
+        adicionarImagemBtn.disabled = total >= 8;
+    }
+
+    window.removerImagemCarrossel = (btn, tipo) => {
+        btn.parentElement.remove();
+        atualizarTextoBotao();
+    };
+
+    adicionarImagemBtn.addEventListener("click", () => {
+        const total = carrosselContainer.querySelectorAll(".carrossel-imagem").length;
+        if (total >= 8) return;
+
+        const div = document.createElement("div");
+        div.className = "carrossel-item";
+        div.dataset.index = total + 1;
+        div.innerHTML = `
+            <h4>Imagem ${total + 1}</h4>
+            <input type="text" class="carrossel-imagem" placeholder="URL da imagem">
+            <button type="button" class="remover-imagem">Remover</button>
+        `;
+        div.querySelector(".remover-imagem").onclick = () => {
+            div.remove();
+            atualizarTextoBotao();
+        };
+        carrosselContainer.appendChild(div);
+        atualizarTextoBotao();
+    });
+
+    atualizarTextoBotao();
+
+    // =========================
+    // MULTI DESTINOS
+    // =========================
+    const destinosContainer = document.getElementById("multidestinos-container");
+    const adicionarDestinoBtn = document.getElementById("adicionar-destino-btn");
+
+    function criarDestino(index) {
+        const div = document.createElement("div");
+        div.className = "destino-item";
+        div.dataset.index = index;
+        div.innerHTML = `
+            <h3>Destino ${index}</h3>
+            <div class="destino-inputs">
+                <label>Nome do destino:</label>
+                <input type="text" class="destino-nome">
+                <label>Passeios:</label>
+                <textarea class="destino-passeios" rows="3"></textarea>
+                <label>Dicas:</label>
+                <textarea class="destino-dicas" rows="3"></textarea>
+            </div>
+            <button type="button" class="remover-destino">Remover Destino</button>
+        `;
+        div.querySelector(".remover-destino").onclick = () => {
+            div.remove();
+            atualizarTextoDestinos();
+        };
+        return div;
+    }
+
+    function atualizarTextoDestinos() {
+        const total = destinosContainer.querySelectorAll(".destino-item").length;
+        adicionarDestinoBtn.textContent = `+ Adicionar novo destino (${total}/20)`;
+        adicionarDestinoBtn.disabled = total >= 20;
+    }
+
+    adicionarDestinoBtn.addEventListener("click", () => {
+        const total = destinosContainer.querySelectorAll(".destino-item").length;
+        if (total >= 20) return;
+        const div = criarDestino(total + 1);
+        destinosContainer.appendChild(div);
+        atualizarTextoDestinos();
+    });
+
+    atualizarTextoDestinos();
+
+    // =========================
+    // SALVAR FORMULÁRIO
+    // =========================
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -31,77 +117,35 @@ document.addEventListener("DOMContentLoaded", () => {
             destinosMultiplos: []
         };
 
-        // ===== CARROSSEL HOTEL =====
-        document.querySelectorAll(".carrossel-imagem").forEach(img => {
+        // Carrossel de imagens
+        carrosselContainer.querySelectorAll(".carrossel-imagem").forEach(img => {
             if (img.value.trim()) dados.carrosselImagensHotel.push(img.value.trim());
         });
 
-        // ===== MULTI DESTINOS =====
-        document.querySelectorAll(".destino-item").forEach((destinoDiv, index) => {
-            const nome = destinoDiv.querySelector(".destino-nome")?.value.trim() || "";
-            const passeios = destinoDiv.querySelector(".destino-passeios")?.value.trim() || "";
-            const dicas = destinoDiv.querySelector(".destino-dicas")?.value.trim() || "";
-            if (nome || passeios || dicas) dados.destinosMultiplos.push({ index: index + 1, nome, passeios, dicas });
+        // Destinos múltiplos
+        destinosContainer.querySelectorAll(".destino-item").forEach((div, index) => {
+            const nome = div.querySelector(".destino-nome")?.value.trim() || "";
+            const passeios = div.querySelector(".destino-passeios")?.value.trim() || "";
+            const dicas = div.querySelector(".destino-dicas")?.value.trim() || "";
+            if (nome || passeios || dicas) {
+                dados.destinosMultiplos.push({ index: index + 1, nome, passeios, dicas });
+            }
         });
 
         try {
             const id = await salvarProposta(dados);
             window.location.href = `proposta.html?id=${id}`;
         } catch (err) {
-            console.error(err);
+            console.error("Erro ao salvar proposta:", err);
             alert("Erro ao gerar proposta. Tente novamente.");
         }
     });
 
-    // ===== LIMPAR FORMULÁRIO =====
+    // =========================
+    // LIMPAR FORMULÁRIO
+    // =========================
     const limparBtn = document.getElementById("limparFormularioBtn");
-    if (limparBtn) limparBtn.addEventListener("click", () => form.reset());
-
-    // ===== ADICIONAR IMAGEM HOTEL =====
-    const adicionarImagemBtn = document.getElementById("adicionar-imagem-hotel-btn");
-    adicionarImagemBtn.addEventListener("click", () => {
-        const container = document.getElementById("carrossel-hotel-container");
-        const count = container.querySelectorAll(".carrossel-item").length;
-        if (count >= 8) return alert("Máximo de 8 imagens.");
-
-        const div = document.createElement("div");
-        div.className = "carrossel-item";
-        div.innerHTML = `
-            <h4>Imagem ${count + 1}</h4>
-            <input type="text" class="carrossel-imagem" placeholder="URL da imagem">
-            <button type="button" class="remover-imagem">Remover</button>
-        `;
-        container.appendChild(div);
-        div.querySelector(".remover-imagem").addEventListener("click", () => div.remove());
-    });
-
-    // ===== ADICIONAR DESTINO =====
-    const adicionarDestinoBtn = document.getElementById("adicionar-destino-btn");
-    adicionarDestinoBtn.addEventListener("click", () => {
-        const container = document.getElementById("multidestinos-container");
-        const count = container.querySelectorAll(".destino-item").length;
-        if (count >= 20) return alert("Máximo de 20 destinos.");
-
-        const div = document.createElement("div");
-        div.className = "destino-item";
-        div.innerHTML = `
-            <h3>Destino ${count + 1}</h3>
-            <div class="destino-inputs">
-                <label>Nome:</label>
-                <input type="text" class="destino-nome">
-                <label>Passeios:</label>
-                <textarea class="destino-passeios" rows="3"></textarea>
-                <label>Dicas:</label>
-                <textarea class="destino-dicas" rows="2"></textarea>
-                <button type="button" class="remover-destino">Remover Destino</button>
-            </div>
-        `;
-        container.appendChild(div);
-        div.querySelector(".remover-destino").addEventListener("click", () => div.remove());
-    });
-
-    // ===== REMOVER IMAGENS EXISTENTES =====
-    document.querySelectorAll(".remover-imagem").forEach(btn => {
-        btn.addEventListener("click", e => e.target.parentElement.remove());
-    });
+    if (limparBtn) {
+        limparBtn.addEventListener("click", () => form.reset());
+    }
 });
