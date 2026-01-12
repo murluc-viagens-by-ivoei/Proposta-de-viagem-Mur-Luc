@@ -1,6 +1,10 @@
+// script-proposta.js
 import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+    console.log("📄 Proposta carregada");
+
+    // Captura o ID da URL
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
@@ -9,24 +13,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    // Busca os dados do Supabase
     const dados = await buscarProposta(id);
-
     if (!dados) {
         alert("Proposta não encontrada no banco");
         return;
     }
 
     // ===============================
-    // FUNÇÕES AUXILIARES
+    // HELPERS
     // ===============================
     const setText = (id, value) => {
         const el = document.getElementById(id);
-        if (el && value) el.textContent = value;
+        if (el) el.textContent = value || "-";
     };
 
     const setImg = (id, url) => {
         const img = document.getElementById(id);
-        if (img && url) img.src = url;
+        if (img) {
+            if (url) {
+                img.src = url;
+                img.style.display = "block";
+            } else {
+                img.style.display = "none";
+            }
+        }
     };
 
     // ===============================
@@ -47,16 +58,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     setText("descricaoCampo", dados.descricaoCampo);
     setText("hotelServicosCampo", dados.hotelServicosCampo);
     setText("enderecoCampo", dados.enderecoCampo);
-    setText("dicasCampo", dados.dicasCampo);
 
     // ===============================
     // CARROSSEL HOTEL
     // ===============================
-    let currentIndex = 0;
-    const images = (dados.carrosselImagensHotel || []).filter(Boolean);
     const container = document.getElementById("carrossel-images-hotel");
     const dots = document.getElementById("carrossel-dots-hotel");
     const counter = document.getElementById("carrossel-counter-hotel");
+
+    let currentIndex = 0;
+    const images = (dados.carrosselImagensHotel || []).filter(Boolean);
 
     function renderCarousel() {
         if (!container || images.length === 0) return;
@@ -95,10 +106,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCarousel();
 
     // ===============================
-    // DESTINOS MÚLTIPLOS
+    // DESTINOS MULTIPLOS
     // ===============================
     const destinosContainer = document.getElementById("destinos-container");
-
     if (dados.destinosMultiplos?.length) {
         dados.destinosMultiplos.forEach(destino => {
             const div = document.createElement("div");
@@ -106,16 +116,22 @@ document.addEventListener("DOMContentLoaded", async () => {
             div.style.display = "block";
 
             div.innerHTML = `
-                <h2 class="destino-nome-titulo">${destino.nome}</h2>
-                <div class="destino-container">
-                    ${destino.passeios ? `<div class="lista-passeios">${destino.passeios}</div>` : ""}
-                    ${destino.dicas ? `<div class="dicas">${destino.dicas}</div>` : ""}
-                </div>
-            `;
+            <h2 class="destino-nome-titulo">${destino.nome}</h2>
+            <div class="destino-container">
+                ${destino.passeios ? `<div class="lista-passeios">${destino.passeios}</div>` : ""}
+                ${destino.dicas ? `<div class="dicas">${destino.dicas}</div>` : ""}
+            </div>
+        `;
 
             destinosContainer.appendChild(div);
         });
     }
+
+
+    // ===============================
+    // DICAS GERAIS
+    // ===============================
+    setText("dicasCampo", dados.dicasCampo);
 
     // ===============================
     // VALORES
@@ -123,34 +139,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     const itemsList = document.getElementById("itemsList");
     if (itemsList) {
         const valores = [
-            { label: "Hotel", value: dados.valorHotel },
-            { label: "Passagem aérea", value: dados.valorAereo },
-            { label: "Traslado", value: dados.valorTraslado },
-            { label: "Seguro viagem", value: dados.valorSeguro }
+            { label: "Hotel", valor: dados.valorHotel },
+            { label: "Passagem Aérea", valor: dados.valorAereo },
+            { label: "Traslado", valor: dados.valorTraslado },
+            { label: "Seguro Viagem", valor: dados.valorSeguro },
         ];
 
-        valores.forEach(item => {
-            if (item.value) {
-                const row = document.createElement("div");
-                row.className = "row";
-                row.innerHTML = `
-                    <span class="label">${item.label}</span>
-                    <div class="dots"></div>
-                    <span class="price">R$ ${parseFloat(item.value).toFixed(2)}</span>
-                `;
-                itemsList.appendChild(row);
-            }
-        });
+        itemsList.innerHTML = valores.map(v => `
+            <div class="row">
+                <span class="label">${v.label}</span>
+                <span class="dots"></span>
+                <span class="price">R$ ${v.valor || "0,00"}</span>
+            </div>
+        `).join("");
 
-        const total = valores.reduce((acc, i) => acc + (parseFloat(i.value) || 0), 0);
-        const totalRow = document.createElement("div");
-        totalRow.className = "row total";
-        totalRow.innerHTML = `
+        // Total
+        const total = valores.reduce((acc, v) => acc + Number(v.valor || 0), 0);
+        const divTotal = document.createElement("div");
+        divTotal.className = "row total";
+        divTotal.innerHTML = `
             <span class="label">TOTAL</span>
-            <div class="dots"></div>
+            <span class="dots"></span>
             <span class="price">R$ ${total.toFixed(2)}</span>
         `;
-        itemsList.appendChild(totalRow);
+        itemsList.appendChild(divTotal);
     }
 
+    console.log("✅ Proposta renderizada com sucesso");
 });
