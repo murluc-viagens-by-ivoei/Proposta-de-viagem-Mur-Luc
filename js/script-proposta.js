@@ -4,7 +4,6 @@ import { buscarProposta } from "./storage.js";
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("📄 Proposta carregada");
 
-    // Captura o ID da URL
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
@@ -13,8 +12,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    // Busca os dados do Supabase
     const dados = await buscarProposta(id);
+
     if (!dados) {
         alert("Proposta não encontrada no banco");
         return;
@@ -25,19 +24,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ===============================
     const setText = (id, value) => {
         const el = document.getElementById(id);
-        if (el) el.textContent = value || "-";
+        if (el) el.textContent = value || "";
     };
 
     const setImg = (id, url) => {
         const img = document.getElementById(id);
-        if (img) {
-            if (url) {
-                img.src = url;
-                img.style.display = "block";
-            } else {
-                img.style.display = "none";
-            }
-        }
+        if (img) img.src = url || "";
     };
 
     // ===============================
@@ -58,148 +50,147 @@ document.addEventListener("DOMContentLoaded", async () => {
     setText("descricaoCampo", dados.descricaoCampo);
     setText("hotelServicosCampo", dados.hotelServicosCampo);
     setText("enderecoCampo", dados.enderecoCampo);
+    setText("dicasCampo", dados.dicasCampo);
 
     // ===============================
-    // CARROSSEL HOTEL
+    // CARROSSEL DO HOTEL
     // ===============================
-    const container = document.getElementById("carrossel-images-hotel");
-    const dots = document.getElementById("carrossel-dots-hotel");
-    const counter = document.getElementById("carrossel-counter-hotel");
+    let currentIndexHotel = 0;
+    const hotelImages = (dados.carrosselImagensHotel || []).filter(Boolean);
 
-    let currentIndex = 0;
-    const images = (dados.carrosselImagensHotel || []).filter(Boolean);
+    const hotelContainer = document.getElementById("carrossel-images-hotel");
+    const hotelDots = document.getElementById("carrossel-dots-hotel");
+    const hotelCounter = document.getElementById("carrossel-counter-hotel");
 
-    function renderCarousel() {
-        if (!container || images.length === 0) return;
+    function renderCarouselHotel() {
+        if (!hotelContainer || hotelImages.length === 0) return;
 
-        container.innerHTML = "";
-        dots.innerHTML = "";
+        hotelContainer.innerHTML = "";
+        hotelDots.innerHTML = "";
 
-        images.forEach((url, i) => {
+        hotelImages.forEach((url, i) => {
             const img = document.createElement("img");
             img.src = url;
-            img.className = "carrossel-image" + (i === currentIndex ? " active" : "");
-            container.appendChild(img);
+            img.className = "carrossel-image" + (i === currentIndexHotel ? " active" : "");
+            hotelContainer.appendChild(img);
 
             const dot = document.createElement("span");
-            dot.className = "carrossel-dot" + (i === currentIndex ? " active" : "");
+            dot.className = "carrossel-dot" + (i === currentIndexHotel ? " active" : "");
             dot.onclick = () => {
-                currentIndex = i;
-                renderCarousel();
+                currentIndexHotel = i;
+                renderCarouselHotel();
             };
-            dots.appendChild(dot);
+            hotelDots.appendChild(dot);
         });
 
-        counter.textContent = `${currentIndex + 1} / ${images.length}`;
+        hotelCounter.textContent = `${currentIndexHotel + 1} / ${hotelImages.length}`;
     }
 
     window.prevSlideHotel = () => {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        renderCarousel();
+        currentIndexHotel = (currentIndexHotel - 1 + hotelImages.length) % hotelImages.length;
+        renderCarouselHotel();
     };
 
     window.nextSlideHotel = () => {
-        currentIndex = (currentIndex + 1) % images.length;
-        renderCarousel();
+        currentIndexHotel = (currentIndexHotel + 1) % hotelImages.length;
+        renderCarouselHotel();
     };
 
-    renderCarousel();
+    renderCarouselHotel();
 
     // ===============================
-    // DESTINOS MULTIPLOS
+    // MULTIPLOS DESTINOS
     // ===============================
     const destinosContainer = document.getElementById("destinos-container");
-    if (dados.destinosMultiplos?.length) {
+
+    if (dados.destinosMultiplos && dados.destinosMultiplos.length > 0) {
         dados.destinosMultiplos.forEach((destino, index) => {
-            const div = document.createElement("div");
-            div.className = "destino-pagina page";
-            div.style.display = "block";
-
-            // Cada destino terá seu carrossel único com id baseado no index
-            const carrosselId = `carrossel-images-destino-${index}`;
-            const dotsId = `carrossel-dots-destino-${index}`;
-            const counterId = `carrossel-counter-destino-${index}`;
-
-            div.innerHTML = `
-            <h2 class="destino-nome-titulo">${destino.nome}</h2>
-            <div class="destino-container">
-                ${destino.passeios ? `<div class="lista-passeios">${destino.passeios}</div>` : ""}
-                ${destino.dicas ? `<div class="dicas">${destino.dicas}</div>` : ""}
-            </div>
-
-            <div class="destino-carrossel">
-                <div id="${carrosselId}" class="carrossel-images"></div>
-                <div class="carrossel-controls">
-                    <button class="carrossel-prev" onclick="prevSlideDestino(${index})">❮</button>
-                    <div class="carrossel-dots" id="${dotsId}"></div>
-                    <button class="carrossel-next" onclick="nextSlideDestino(${index})">❯</button>
-                </div>
-                <div class="carrossel-counter" id="${counterId}"></div>
-            </div>
-        `;
-
-            destinosContainer.appendChild(div);
-
-            // Renderiza o carrossel do destino
-            let currentDestIndex = 0;
-            const imagesDest = (destino.carrosselImagens || []).filter(Boolean);
-
-            function renderDestinoCarousel() {
-                const container = document.getElementById(carrosselId);
-                const dots = document.getElementById(dotsId);
-                const counter = document.getElementById(counterId);
-
-                if (!container || imagesDest.length === 0) return;
-
-                container.innerHTML = "";
-                dots.innerHTML = "";
-
-                imagesDest.forEach((url, i) => {
-                    const img = document.createElement("img");
-                    img.src = url;
-                    img.className = "carrossel-image" + (i === currentDestIndex ? " active" : "");
-                    container.appendChild(img);
-
-                    const dot = document.createElement("span");
-                    dot.className = "carrossel-dot" + (i === currentDestIndex ? " active" : "");
-                    dot.onclick = () => {
-                        currentDestIndex = i;
-                        renderDestinoCarousel();
-                    };
-                    dots.appendChild(dot);
-                });
-
-                counter.textContent = `${currentDestIndex + 1} / ${imagesDest.length}`;
-            }
-
-            window[`prevSlideDestino${index}`] = () => {
-                currentDestIndex = (currentDestIndex - 1 + imagesDest.length) % imagesDest.length;
-                renderDestinoCarousel();
-            };
-
-            window[`nextSlideDestino${index}`] = () => {
-                currentDestIndex = (currentDestIndex + 1) % imagesDest.length;
-                renderDestinoCarousel();
-            };
-
-            // Funções globais para onclick
-            window[`prevSlideDestino`] = (i) => {
-                window[`prevSlideDestino${i}`]();
-            };
-            window[`nextSlideDestino`] = (i) => {
-                window[`nextSlideDestino${i}`]();
-            };
-
-            renderDestinoCarousel();
+            criarDestinoCard(destino, index);
         });
     }
 
+    function criarDestinoCard(destino, index) {
+        const div = document.createElement("div");
+        div.className = "destino-pagina";
 
+        div.innerHTML = `
+            <h2 class="destino-nome-titulo">Destino ${index + 1}: ${destino.nome || ""}</h2>
+            <p><strong>Passeios:</strong> ${destino.passeios || ""}</p>
+            <p><strong>Dicas:</strong> ${destino.dicas || ""}</p>
+        `;
 
-    // ===============================
-    // DICAS GERAIS
-    // ===============================
-    setText("dicasCampo", dados.dicasCampo);
+        // Se houver imagens no destino, criar carrossel
+        if (destino.carrosselImagensDestino && destino.carrosselImagensDestino.length > 0) {
+            const carouselDiv = document.createElement("div");
+            carouselDiv.className = "destino-carrossel-container destino-carrossel";
+
+            let currentIndexDestino = 0;
+            const imagensDestino = destino.carrosselImagensDestino.filter(Boolean);
+
+            const imagesWrapper = document.createElement("div");
+            imagesWrapper.className = "carrossel-images";
+
+            const dotsWrapper = document.createElement("div");
+            dotsWrapper.className = "carrossel-dots";
+
+            const counter = document.createElement("div");
+            counter.className = "carrossel-counter";
+
+            function renderDestinoCarousel() {
+                imagesWrapper.innerHTML = "";
+                dotsWrapper.innerHTML = "";
+
+                imagensDestino.forEach((url, i) => {
+                    const img = document.createElement("img");
+                    img.src = url;
+                    img.className = "carrossel-image" + (i === currentIndexDestino ? " active" : "");
+                    imagesWrapper.appendChild(img);
+
+                    const dot = document.createElement("span");
+                    dot.className = "carrossel-dot" + (i === currentIndexDestino ? " active" : "");
+                    dot.onclick = () => {
+                        currentIndexDestino = i;
+                        renderDestinoCarousel();
+                    };
+                    dotsWrapper.appendChild(dot);
+                });
+
+                counter.textContent = `${currentIndexDestino + 1} / ${imagensDestino.length}`;
+            }
+
+            const prevBtn = document.createElement("button");
+            prevBtn.className = "carrossel-prev";
+            prevBtn.innerText = "❮";
+            prevBtn.onclick = () => {
+                currentIndexDestino = (currentIndexDestino - 1 + imagensDestino.length) % imagensDestino.length;
+                renderDestinoCarousel();
+            };
+
+            const nextBtn = document.createElement("button");
+            nextBtn.className = "carrossel-next";
+            nextBtn.innerText = "❯";
+            nextBtn.onclick = () => {
+                currentIndexDestino = (currentIndexDestino + 1) % imagensDestino.length;
+                renderDestinoCarousel();
+            };
+
+            const controls = document.createElement("div");
+            controls.className = "carrossel-controls";
+            controls.appendChild(prevBtn);
+            controls.appendChild(dotsWrapper);
+            controls.appendChild(nextBtn);
+
+            carouselDiv.appendChild(imagesWrapper);
+            carouselDiv.appendChild(controls);
+            carouselDiv.appendChild(counter);
+
+            div.appendChild(carouselDiv);
+            renderDestinoCarousel();
+        }
+
+        destinosContainer.appendChild(div);
+        div.style.display = "block"; // mostrar destino
+    }
 
     // ===============================
     // VALORES
@@ -207,30 +198,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     const itemsList = document.getElementById("itemsList");
     if (itemsList) {
         const valores = [
-            { label: "Hotel", valor: dados.valorHotel },
-            { label: "Passagem Aérea", valor: dados.valorAereo },
-            { label: "Traslado", valor: dados.valorTraslado },
-            { label: "Seguro Viagem", valor: dados.valorSeguro },
+            { label: "Hotel", value: dados.valorHotel },
+            { label: "Passagem Aérea", value: dados.valorAereo },
+            { label: "Traslado", value: dados.valorTraslado },
+            { label: "Seguro Viagem", value: dados.valorSeguro }
         ];
 
-        itemsList.innerHTML = valores.map(v => `
-            <div class="row">
-                <span class="label">${v.label}</span>
+        itemsList.innerHTML = "";
+        valores.forEach(item => {
+            const row = document.createElement("div");
+            row.className = "row";
+            row.innerHTML = `
+                <span class="label">${item.label}</span>
                 <span class="dots"></span>
-                <span class="price">R$ ${v.valor || "0,00"}</span>
-            </div>
-        `).join("");
+                <span class="price">R$ ${item.value || 0}</span>
+            `;
+            itemsList.appendChild(row);
+        });
 
-        // Total
-        const total = valores.reduce((acc, v) => acc + Number(v.valor || 0), 0);
-        const divTotal = document.createElement("div");
-        divTotal.className = "row total";
-        divTotal.innerHTML = `
+        const total = valores.reduce((acc, cur) => acc + Number(cur.value || 0), 0);
+        const totalRow = document.createElement("div");
+        totalRow.className = "row total";
+        totalRow.innerHTML = `
             <span class="label">TOTAL</span>
             <span class="dots"></span>
-            <span class="price">R$ ${total.toFixed(2)}</span>
+            <span class="price">R$ ${total}</span>
         `;
-        itemsList.appendChild(divTotal);
+        itemsList.appendChild(totalRow);
     }
 
     console.log("✅ Proposta renderizada com sucesso");
