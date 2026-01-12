@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8" />
     <title>Proposta</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div class="pages-wrapper">
 
@@ -36,7 +34,6 @@
         <div class="page" id="page3">
             <img src="assets/logo.png" class="logo" alt="Logo">
             <h1 id="tituloHospedagemCampo"></h1>
-
             <div class="infos">
                 <div class="checks">
                     <div class="bloco">
@@ -48,58 +45,42 @@
                         <p id="hotelCheckoutCampo"></p>
                     </div>
                 </div>
-
                 <div class="bloco">
                     <h2>Descrição do Hotel:</h2>
                     <p id="descricaoCampo"></p>
                 </div>
-
                 <div class="bloco">
                     <h2>Dispõe de:</h2>
                     <p id="hotelServicosCampo"></p>
                 </div>
-
                 <div class="bloco">
                     <h2>Endereço:</h2>
                     <p id="enderecoCampo"></p>
                 </div>
             </div>
-
             <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
         </div>
 
-        <!-- PÁGINA 4: Carrossel de Fotos do Hotel (até 8 imagens) -->
+        <!-- PÁGINA 4: CARROSSEL HOTEL -->
         <div class="page" id="page4">
             <img src="assets/logo.png" class="logo" alt="Logo">
             <h1>Fotos da Hospedagem</h1>
-
             <div id="carrossel-hotel" class="carrossel">
-                <div id="carrossel-images-hotel" class="carrossel-images">
-                    <!-- Imagens do hotel serão inseridas aqui dinamicamente -->
-                </div>
-
+                <div id="carrossel-images-hotel" class="carrossel-images"></div>
                 <div class="carrossel-controls">
                     <button class="carrossel-prev" onclick="prevSlideHotel()">❮</button>
-                    <div class="carrossel-dots" id="carrossel-dots-hotel">
-                        <!-- Pontos serão inseridos dinamicamente -->
-                    </div>
+                    <div class="carrossel-dots" id="carrossel-dots-hotel"></div>
                     <button class="carrossel-next" onclick="nextSlideHotel()">❯</button>
                 </div>
-
-                <div class="carrossel-counter" id="carrossel-counter-hotel">
-                    <!-- Contador será atualizado dinamicamente -->
-                </div>
+                <div class="carrossel-counter" id="carrossel-counter-hotel"></div>
             </div>
-
             <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
         </div>
 
-        <!-- CONTAINER PARA DESTINOS DINÂMICOS -->
-        <div id="destinos-container">
-            <!-- Os destinos serão inseridos aqui dinamicamente -->
-        </div>
+        <!-- DESTINOS MÚLTIPLOS -->
+        <div id="destinos-container"></div>
 
-        <!-- PÁGINA PARA DICAS -->
+        <!-- PÁGINA DICAS -->
         <div class="page" id="page-dicas">
             <img src="assets/logo.png" class="logo" alt="Logo">
             <h1>Dicas Importantes</h1>
@@ -107,28 +88,19 @@
             <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
         </div>
 
-        <!-- PÁGINA PARA VALORES -->
+        <!-- PÁGINA VALORES -->
         <div class="page" id="page-valores">
             <img src="assets/logo.png" class="logo" alt="Logo">
             <h1>Valores do Pacote</h1>
-
             <div class="price-card">
-                <div class="items" id="itemsList">
-                    <!-- Itens serão inseridos dinamicamente -->
-                </div>
-                <div class="pay-methods"></div>
+                <div class="items" id="itemsList"></div>
             </div>
             <p>✈️ Valores sujeitos a alterações sem aviso prévio.</p>
-
             <div class="rodape"><img src="assets/rodape.png" alt="Rodapé"></div>
         </div>
 
-    </div> <!-- FIM DO pages-wrapper -->
+    </div>
 
     <script type="module" src="js/script-proposta.js"></script>
-
-
-
 </body>
-
 </html>
