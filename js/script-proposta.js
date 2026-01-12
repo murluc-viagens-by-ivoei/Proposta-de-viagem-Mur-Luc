@@ -110,10 +110,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ===============================
     const destinosContainer = document.getElementById("destinos-container");
     if (dados.destinosMultiplos?.length) {
-        dados.destinosMultiplos.forEach(destino => {
+        dados.destinosMultiplos.forEach((destino, index) => {
             const div = document.createElement("div");
             div.className = "destino-pagina page";
             div.style.display = "block";
+
+            // Cada destino terá seu carrossel único com id baseado no index
+            const carrosselId = `carrossel-images-destino-${index}`;
+            const dotsId = `carrossel-dots-destino-${index}`;
+            const counterId = `carrossel-counter-destino-${index}`;
 
             div.innerHTML = `
             <h2 class="destino-nome-titulo">${destino.nome}</h2>
@@ -121,11 +126,74 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ${destino.passeios ? `<div class="lista-passeios">${destino.passeios}</div>` : ""}
                 ${destino.dicas ? `<div class="dicas">${destino.dicas}</div>` : ""}
             </div>
+
+            <div class="destino-carrossel">
+                <div id="${carrosselId}" class="carrossel-images"></div>
+                <div class="carrossel-controls">
+                    <button class="carrossel-prev" onclick="prevSlideDestino(${index})">❮</button>
+                    <div class="carrossel-dots" id="${dotsId}"></div>
+                    <button class="carrossel-next" onclick="nextSlideDestino(${index})">❯</button>
+                </div>
+                <div class="carrossel-counter" id="${counterId}"></div>
+            </div>
         `;
 
             destinosContainer.appendChild(div);
+
+            // Renderiza o carrossel do destino
+            let currentDestIndex = 0;
+            const imagesDest = (destino.carrosselImagens || []).filter(Boolean);
+
+            function renderDestinoCarousel() {
+                const container = document.getElementById(carrosselId);
+                const dots = document.getElementById(dotsId);
+                const counter = document.getElementById(counterId);
+
+                if (!container || imagesDest.length === 0) return;
+
+                container.innerHTML = "";
+                dots.innerHTML = "";
+
+                imagesDest.forEach((url, i) => {
+                    const img = document.createElement("img");
+                    img.src = url;
+                    img.className = "carrossel-image" + (i === currentDestIndex ? " active" : "");
+                    container.appendChild(img);
+
+                    const dot = document.createElement("span");
+                    dot.className = "carrossel-dot" + (i === currentDestIndex ? " active" : "");
+                    dot.onclick = () => {
+                        currentDestIndex = i;
+                        renderDestinoCarousel();
+                    };
+                    dots.appendChild(dot);
+                });
+
+                counter.textContent = `${currentDestIndex + 1} / ${imagesDest.length}`;
+            }
+
+            window[`prevSlideDestino${index}`] = () => {
+                currentDestIndex = (currentDestIndex - 1 + imagesDest.length) % imagesDest.length;
+                renderDestinoCarousel();
+            };
+
+            window[`nextSlideDestino${index}`] = () => {
+                currentDestIndex = (currentDestIndex + 1) % imagesDest.length;
+                renderDestinoCarousel();
+            };
+
+            // Funções globais para onclick
+            window[`prevSlideDestino`] = (i) => {
+                window[`prevSlideDestino${i}`]();
+            };
+            window[`nextSlideDestino`] = (i) => {
+                window[`nextSlideDestino${i}`]();
+            };
+
+            renderDestinoCarousel();
         });
     }
+
 
 
     // ===============================
