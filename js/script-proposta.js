@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCarouselHotel();
 
     // ===============================
-    // MULTIPLOS DESTINOS
+    // MULTIPLOS DESTINOS (OPÇÃO 2)
     // ===============================
     const destinosContainer = document.getElementById("destinos-container");
 
@@ -111,21 +111,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function criarDestinoCard(destino, index) {
         const div = document.createElement("div");
-        div.className = "destino-pagina";
+        div.className = "page destino-pagina";
 
         div.innerHTML = `
-            <h2 class="destino-nome-titulo">Destino ${index + 1}: ${destino.nome || ""}</h2>
-            <p><strong>Passeios:</strong> ${destino.passeios || ""}</p>
-            <p><strong>Dicas:</strong> ${destino.dicas || ""}</p>
+            <img src="/Proposta-de-viagem-Mur-Luc/assets/logo.png" class="logo" alt="Logo">
+
+            <h1 class="destino-nome-titulo">
+                Destino ${index + 1}: ${destino.nome || ""}
+            </h1>
+
+            <div class="bloco">
+                <h2>Passeios</h2>
+                <p>${destino.passeios || ""}</p>
+            </div>
         `;
 
-        // Se houver imagens no destino, criar carrossel
+        // ===== CARROSSEL DE IMAGENS DO DESTINO =====
         if (destino.carrosselImagensDestino && destino.carrosselImagensDestino.length > 0) {
-            const carouselDiv = document.createElement("div");
-            carouselDiv.className = "destino-carrossel-container destino-carrossel";
-
-            let currentIndexDestino = 0;
             const imagensDestino = destino.carrosselImagensDestino.filter(Boolean);
+            let currentIndexDestino = 0;
+
+            const carouselDiv = document.createElement("div");
+            carouselDiv.className = "destino-carrossel carrossel";
 
             const imagesWrapper = document.createElement("div");
             imagesWrapper.className = "carrossel-images";
@@ -162,7 +169,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             prevBtn.className = "carrossel-prev";
             prevBtn.innerText = "❮";
             prevBtn.onclick = () => {
-                currentIndexDestino = (currentIndexDestino - 1 + imagensDestino.length) % imagensDestino.length;
+                currentIndexDestino =
+                    (currentIndexDestino - 1 + imagensDestino.length) % imagensDestino.length;
                 renderDestinoCarousel();
             };
 
@@ -170,7 +178,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             nextBtn.className = "carrossel-next";
             nextBtn.innerText = "❯";
             nextBtn.onclick = () => {
-                currentIndexDestino = (currentIndexDestino + 1) % imagensDestino.length;
+                currentIndexDestino =
+                    (currentIndexDestino + 1) % imagensDestino.length;
                 renderDestinoCarousel();
             };
 
@@ -188,8 +197,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             renderDestinoCarousel();
         }
 
+        // ===== DICAS =====
+        const dicasBloco = document.createElement("div");
+        dicasBloco.className = "bloco";
+        dicasBloco.innerHTML = `
+            <h2>Dicas</h2>
+            <p>${destino.dicas || ""}</p>
+        `;
+        div.appendChild(dicasBloco);
+
+        // ===== RODAPÉ =====
+        const rodape = document.createElement("div");
+        rodape.className = "rodape";
+        rodape.innerHTML = `
+            <img src="/Proposta-de-viagem-Mur-Luc/assets/rodape.png" alt="Rodapé">
+        `;
+        div.appendChild(rodape);
+
         destinosContainer.appendChild(div);
-        div.style.display = "block"; // mostrar destino
     }
 
     // ===============================
