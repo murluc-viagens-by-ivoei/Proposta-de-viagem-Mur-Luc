@@ -28,16 +28,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     el.textContent = value ?? "";
   };
 
-
-
   const setImg = (id, url) => {
     const img = document.getElementById(id);
-    if (img && url) {
+    if (!img) return;
+
+    if (url) {
       img.src = url;
       img.style.display = "block";
+    } else {
+      img.style.display = "none";
     }
   };
-
 
   // ===============================
   // DADOS PRINCIPAIS
@@ -78,11 +79,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     hotelImages.forEach((url, i) => {
       const img = document.createElement("img");
       img.src = url;
-      img.className = "carrossel-image" + (i === currentIndexHotel ? " active" : "");
+      img.className =
+        "carrossel-image" + (i === currentIndexHotel ? " active" : "");
       hotelContainer.appendChild(img);
 
       const dot = document.createElement("span");
-      dot.className = "carrossel-dot" + (i === currentIndexHotel ? " active" : "");
+      dot.className =
+        "carrossel-dot" + (i === currentIndexHotel ? " active" : "");
       dot.onclick = () => {
         currentIndexHotel = i;
         renderCarouselHotel();
@@ -94,50 +97,52 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   window.prevSlideHotel = () => {
-    currentIndexHotel = (currentIndexHotel - 1 + hotelImages.length) % hotelImages.length;
+    currentIndexHotel =
+      (currentIndexHotel - 1 + hotelImages.length) % hotelImages.length;
     renderCarouselHotel();
   };
 
   window.nextSlideHotel = () => {
-    currentIndexHotel = (currentIndexHotel + 1) % hotelImages.length;
+    currentIndexHotel =
+      (currentIndexHotel + 1) % hotelImages.length;
     renderCarouselHotel();
   };
 
   renderCarouselHotel();
 
   // ===============================
-  // MULTIPLOS DESTINOS (OPÇÃO 2)
+  // MULTIPLOS DESTINOS
   // ===============================
   const destinosContainer = document.getElementById("destinos-container");
+  if (!destinosContainer) return;
 
-  if (dados.multidestinos && dados.multidestinos.length > 0) {
-    dados.multidestinos.forEach((destino, index) => {
+  const listaDestinos = dados.multidestinos || [];
+
+  if (listaDestinos.length > 0) {
+    listaDestinos.forEach((destino, index) => {
       criarDestinoCard(destino, index);
     });
   }
-
 
   function criarDestinoCard(destino, index) {
     const div = document.createElement("div");
     div.className = "page destino-pagina";
 
     div.innerHTML = `
-            <img src="./assets/logo.png" class="logo" alt="Logo">
+      <img src="./assets/logo.png" class="logo" alt="Logo">
 
+      <h1 class="destino-nome-titulo">
+        Destino ${index + 1}: ${destino.nome || ""}
+      </h1>
 
-            <h1 class="destino-nome-titulo">
-                Destino ${index + 1}: ${destino.nome || ""}
-            </h1>
-
-            <div class="bloco">
-                <h2>Passeios</h2>
-                <p>${destino.passeios || ""}</p>
-            </div>
-        `;
+      <div class="bloco">
+        <h2>Passeios</h2>
+        <p>${destino.passeios || ""}</p>
+      </div>
+    `;
 
     // ===== CARROSSEL DE IMAGENS DO DESTINO =====
     if (destino.imagens && destino.imagens.length > 0) {
-
       const imagensDestino = destino.imagens.filter(Boolean);
       let currentIndexDestino = 0;
 
@@ -160,11 +165,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         imagensDestino.forEach((url, i) => {
           const img = document.createElement("img");
           img.src = url;
-          img.className = "carrossel-image" + (i === currentIndexDestino ? " active" : "");
+          img.className =
+            "carrossel-image" + (i === currentIndexDestino ? " active" : "");
           imagesWrapper.appendChild(img);
 
           const dot = document.createElement("span");
-          dot.className = "carrossel-dot" + (i === currentIndexDestino ? " active" : "");
+          dot.className =
+            "carrossel-dot" + (i === currentIndexDestino ? " active" : "");
           dot.onclick = () => {
             currentIndexDestino = i;
             renderDestinoCarousel();
@@ -180,7 +187,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       prevBtn.innerText = "❮";
       prevBtn.onclick = () => {
         currentIndexDestino =
-          (currentIndexDestino - 1 + imagensDestino.length) % imagensDestino.length;
+          (currentIndexDestino - 1 + imagensDestino.length) %
+          imagensDestino.length;
         renderDestinoCarousel();
       };
 
@@ -211,17 +219,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const dicasBloco = document.createElement("div");
     dicasBloco.className = "bloco";
     dicasBloco.innerHTML = `
-            <h2>Dicas</h2>
-            <p>${destino.dicas || ""}</p>
-        `;
+      <h2>Dicas</h2>
+      <p>${destino.dicas || ""}</p>
+    `;
     div.appendChild(dicasBloco);
 
     // ===== RODAPÉ =====
     const rodape = document.createElement("div");
     rodape.className = "rodape";
     rodape.innerHTML = `
-            <img src="./assets/rodape.png" alt="Rodapé">
-        `;
+      <img src="./assets/rodape.png" alt="Rodapé">
+    `;
     div.appendChild(rodape);
 
     destinosContainer.appendChild(div);
@@ -240,28 +248,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     ];
 
     itemsList.innerHTML = "";
+
     valores.forEach(item => {
       const row = document.createElement("div");
       row.className = "row";
       row.innerHTML = `
-                <span class="label">${item.label}</span>
-                <span class="dots"></span>
-                <span class="price">R$ ${item.value || 0}</span>
-            `;
+        <span class="label">${item.label}</span>
+        <span class="dots"></span>
+        <span class="price">R$ ${item.value || 0}</span>
+      `;
       itemsList.appendChild(row);
     });
 
-    const total = valores.reduce((acc, cur) => acc + Number(cur.value || 0), 0);
+    const total = valores.reduce(
+      (acc, cur) => acc + Number(cur.value || 0),
+      0
+    );
+
     const totalRow = document.createElement("div");
     totalRow.className = "row total";
     totalRow.innerHTML = `
-            <span class="label">TOTAL</span>
-            <span class="dots"></span>
-            <span class="price">R$ ${total}</span>
-        `;
+      <span class="label">TOTAL</span>
+      <span class="dots"></span>
+      <span class="price">R$ ${total}</span>
+    `;
     itemsList.appendChild(totalRow);
   }
-
 
   console.log("✅ Proposta renderizada com sucesso");
 });
