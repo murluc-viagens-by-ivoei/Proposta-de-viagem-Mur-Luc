@@ -2,8 +2,6 @@
 import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-    console.log("📄 Proposta carregada");
-
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
@@ -20,11 +18,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // ===============================
-    // HELPERS (SEGUROS)
+    // HELPERS
     // ===============================
     const setText = (id, value) => {
         const el = document.getElementById(id);
-        if (el) el.textContent = value ?? "";
+        if (el) el.textContent = value || "";
     };
 
     const setImg = (id, url) => {
@@ -53,59 +51,85 @@ document.addEventListener("DOMContentLoaded", async () => {
     setText("dicasCampo", dados.dicasCampo);
 
     // ===============================
-    // CARROSSEL HOTEL (ROBUSTO)
+    // CARROSSEL HOTEL (CORRIGIDO)
     // ===============================
-    let currentIndex = 0;
-    const images = Array.isArray(dados.carrosselImagensHotel)
+    let currentIndexHotel = 0;
+    const hotelImages = Array.isArray(dados.carrosselImagensHotel)
         ? dados.carrosselImagensHotel.filter(Boolean)
         : [];
 
-    const container = document.getElementById("carrossel-images-hotel");
-    const dots = document.getElementById("carrossel-dots-hotel");
-    const counter = document.getElementById("carrossel-counter-hotel");
+    const hotelContainer = document.getElementById("carrossel-images-hotel");
+    const hotelDots = document.getElementById("carrossel-dots-hotel");
+    const hotelCounter = document.getElementById("carrossel-counter-hotel");
 
-    function renderCarousel() {
-        if (!container || images.length === 0) return;
+    function renderCarouselHotel() {
+        if (!hotelContainer || hotelImages.length === 0) return;
 
-        container.innerHTML = "";
-        if (dots) dots.innerHTML = "";
+        hotelContainer.innerHTML = "";
+        if (hotelDots) hotelDots.innerHTML = "";
 
-        images.forEach((url, i) => {
+        hotelImages.forEach((url, i) => {
             const img = document.createElement("img");
             img.src = url;
-            img.className = "carrossel-image" + (i === currentIndex ? " active" : "");
-            container.appendChild(img);
+            img.className = "carrossel-image" + (i === currentIndexHotel ? " active" : "");
+            hotelContainer.appendChild(img);
 
-            if (dots) {
+            if (hotelDots) {
                 const dot = document.createElement("span");
-                dot.className = "carrossel-dot" + (i === currentIndex ? " active" : "");
+                dot.className = "carrossel-dot" + (i === currentIndexHotel ? " active" : "");
                 dot.onclick = () => {
-                    currentIndex = i;
-                    renderCarousel();
+                    currentIndexHotel = i;
+                    renderCarouselHotel();
                 };
-                dots.appendChild(dot);
+                hotelDots.appendChild(dot);
             }
         });
 
-        if (counter) {
-            counter.textContent = `${currentIndex + 1} / ${images.length}`;
+        if (hotelCounter) {
+            hotelCounter.textContent = `${currentIndexHotel + 1} / ${hotelImages.length}`;
         }
     }
 
     window.prevSlideHotel = () => {
-        if (!images.length) return;
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        renderCarousel();
+        if (hotelImages.length === 0) return;
+        currentIndexHotel =
+            (currentIndexHotel - 1 + hotelImages.length) % hotelImages.length;
+        renderCarouselHotel();
     };
 
     window.nextSlideHotel = () => {
-        if (!images.length) return;
-        currentIndex = (currentIndex + 1) % images.length;
-        renderCarousel();
+        if (hotelImages.length === 0) return;
+        currentIndexHotel =
+            (currentIndexHotel + 1) % hotelImages.length;
+        renderCarouselHotel();
     };
 
-    renderCarousel();
+    renderCarouselHotel();
 
-    console.log("✅ Proposta renderizada com sucesso");
+    // ===============================
+    // DESTINOS MÚLTIPLOS
+    // ===============================
+    const destinosContainer = document.getElementById("destinos-container");
+
+    if (destinosContainer && Array.isArray(dados.destinosMultiplos)) {
+        dados.destinosMultiplos.forEach((destino, index) => {
+            criarDestinoCard(destino, index);
+        });
+    }
+
+    function criarDestinoCard(destino, index) {
+        const div = document.createElement("div");
+        div.className = "page destino-pagina";
+
+        div.innerHTML = `
+            <img src="./assets/logo.png" class="logo">
+            <h1>Destino ${index + 1}: ${destino.nome || ""}</h1>
+            <div class="bloco">
+                <h2>Passeios</h2>
+                <p>${destino.passeios || ""}</p>
+            </div>
+        `;
+
+        destinosContainer.appendChild(div);
+    }
 });
-
