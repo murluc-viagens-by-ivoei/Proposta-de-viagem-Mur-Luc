@@ -1,4 +1,4 @@
-import { buscarProposta } from "./js/storage.js";
+import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const id = new URLSearchParams(window.location.search).get("id");
@@ -102,3 +102,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
 });
+
