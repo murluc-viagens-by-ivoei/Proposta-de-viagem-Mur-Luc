@@ -166,10 +166,11 @@ body {
    SLIDE 1
 ================================ */
 #slide1 {
-    background-image: url("assets/bg/slide1.jpg.png");
+    background-image: url("../assets/bg/slide1.jpg.png");
     background-size: cover;
     background-position: center;
 }
+
 
 .center-text-slide1 h1 {
     font-size: 50px;
