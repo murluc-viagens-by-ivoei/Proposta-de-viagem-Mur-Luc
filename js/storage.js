@@ -6,7 +6,6 @@ export async function salvarProposta(dados) {
     .insert([{ dados }])
     .select("id")
     .single();
-
   if (error) throw error;
   return data.id;
 }
@@ -17,7 +16,6 @@ export async function buscarProposta(id) {
     .select("dados")
     .eq("id", id)
     .single();
-
   if (error) throw error;
   return data.dados;
 }
