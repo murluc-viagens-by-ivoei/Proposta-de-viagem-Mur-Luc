@@ -1,4 +1,3 @@
-// form.js
 import { salvarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -6,23 +5,41 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!form) return;
 
     // =========================
-    // IMAGENS DO HOTEL
+    // CARROSSEL HOTEL
     // =========================
-    const hotelImagensContainer = document.getElementById("hotel-imagens");
-    const addHotelImgBtn = document.getElementById("add-img-hotel");
+    const hotelContainer = document.getElementById("carrossel-hotel-container");
+    const addHotelImgBtn = document.getElementById("adicionar-imagem-hotel-btn");
+    const maxHotelImages = 8;
 
-    if (hotelImagensContainer && addHotelImgBtn) {
-        addHotelImgBtn.onclick = () => {
-            if (hotelImagensContainer.children.length >= 6) return;
-
-            const input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "URL da imagem do hotel";
-            input.className = "hotel-imagem-url";
-
-            hotelImagensContainer.appendChild(input);
-        };
+    function atualizarTextoHotel() {
+        const total = hotelContainer.querySelectorAll(".carrossel-item").length;
+        addHotelImgBtn.textContent = `+ Adicionar imagem (${total}/${maxHotelImages})`;
+        addHotelImgBtn.disabled = total >= maxHotelImages;
     }
+
+    addHotelImgBtn.addEventListener("click", () => {
+        const total = hotelContainer.querySelectorAll(".carrossel-item").length;
+        if (total >= maxHotelImages) return;
+
+        const div = document.createElement("div");
+        div.className = "carrossel-item";
+
+        div.innerHTML = `
+            <h4>Imagem ${total + 1}</h4>
+            <input type="text" class="carrossel-imagem" placeholder="URL da imagem">
+            <button type="button" class="remover-imagem">Remover</button>
+        `;
+
+        div.querySelector(".remover-imagem").onclick = () => {
+            div.remove();
+            atualizarTextoHotel();
+        };
+
+        hotelContainer.appendChild(div);
+        atualizarTextoHotel();
+    });
+
+    atualizarTextoHotel();
 
     // =========================
     // MULTIDESTINOS
@@ -33,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function criarDestino(index) {
         const div = document.createElement("div");
         div.className = "destino-item";
-        div.dataset.index = index;
 
         div.innerHTML = `
             <h3>Destino ${index}</h3>
@@ -42,12 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <input type="text" class="destino-nome">
 
             <label>Passeios</label>
-            <textarea class="destino-passeios" rows="3"></textarea>
+            <textarea class="destino-passeios"></textarea>
 
             <label>Dicas</label>
-            <textarea class="destino-dicas" rows="3"></textarea>
+            <textarea class="destino-dicas"></textarea>
 
-            <h4>Imagens do destino (URLs)</h4>
+            <h4>Imagens do destino</h4>
             <div class="destino-imagens"></div>
 
             <button type="button" class="add-img-destino">+ Adicionar imagem</button>
@@ -59,24 +75,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         div.querySelector(".add-img-destino").onclick = () => {
             if (imagensContainer.children.length >= 6) return;
-
             const input = document.createElement("input");
             input.type = "text";
             input.placeholder = "URL da imagem";
             input.className = "destino-imagem-url";
-
             imagensContainer.appendChild(input);
         };
 
         div.querySelector(".remover-destino").onclick = () => {
             div.remove();
-            atualizarTexto();
+            atualizarTextoDestinos();
         };
 
         return div;
     }
 
-    function atualizarTexto() {
+    function atualizarTextoDestinos() {
         const total = destinosContainer.querySelectorAll(".destino-item").length;
         adicionarDestinoBtn.textContent = `+ Adicionar novo destino (${total}/20)`;
         adicionarDestinoBtn.disabled = total >= 20;
@@ -84,13 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     adicionarDestinoBtn.addEventListener("click", () => {
         const total = destinosContainer.querySelectorAll(".destino-item").length;
-        if (total >= 20) return;
-
         destinosContainer.appendChild(criarDestino(total + 1));
-        atualizarTexto();
+        atualizarTextoDestinos();
     });
 
-    atualizarTexto();
+    atualizarTextoDestinos();
 
     // =========================
     // SUBMIT
@@ -98,10 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // ----- IMAGENS DO HOTEL -----
-        const imagensHotel = [];
-        document.querySelectorAll(".hotel-imagem-url").forEach(input => {
-            if (input.value.trim()) imagensHotel.push(input.value.trim());
+        const carrosselHotel = [];
+        hotelContainer.querySelectorAll(".carrossel-imagem").forEach(input => {
+            if (input.value.trim()) carrosselHotel.push(input.value.trim());
         });
 
         const dados = {
@@ -122,26 +133,17 @@ document.addEventListener("DOMContentLoaded", () => {
             hotelServicosCampo: document.getElementById("hotelServicosCampo")?.value || "",
             dicasCampo: document.getElementById("dicasCampo")?.value || "",
 
-            valorHotel: document.getElementById("valorHotel")?.value || 0,
-            valorAereo: document.getElementById("valorAereo")?.value || 0,
-            valorTraslado: document.getElementById("valorTraslado")?.value || 0,
-            valorSeguro: document.getElementById("valorSeguro")?.value || 0,
-
-            // 🔑 CARROSSEL DO HOTEL
-            carrosselImagensHotel: imagensHotel,
-
-            // 🔑 MULTIDESTINOS
+            carrosselImagensHotel: carrosselHotel,
             destinosMultiplos: []
         };
 
-        destinosContainer.querySelectorAll(".destino-item").forEach((div, i) => {
+        destinosContainer.querySelectorAll(".destino-item").forEach((div) => {
             const imagens = [];
             div.querySelectorAll(".destino-imagem-url").forEach(input => {
                 if (input.value.trim()) imagens.push(input.value.trim());
             });
 
             dados.destinosMultiplos.push({
-                index: i + 1,
                 nome: div.querySelector(".destino-nome")?.value || "",
                 passeios: div.querySelector(".destino-passeios")?.value || "",
                 dicas: div.querySelector(".destino-dicas")?.value || "",
@@ -149,12 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        try {
-            const id = await salvarProposta(dados);
-            window.location.href = `proposta.html?id=${id}`;
-        } catch (err) {
-            console.error(err);
-            alert("Erro ao gerar proposta");
-        }
+        const id = await salvarProposta(dados);
+        window.location.href = `proposta.html?id=${id}`;
     });
 });
