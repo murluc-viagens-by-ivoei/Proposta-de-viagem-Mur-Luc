@@ -35,18 +35,19 @@ body {
    PÁGINA A4
 ================================ */
 .page {
-    width: 210mm;
-    height: 297mm;
+    width: 100%;
+    max-width: 210mm;
+    /* limite para desktop grande */
+    min-height: 100vh;
+    /* garantia de ocupar tela */
     background: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
-    position: relative;
     box-sizing: border-box;
-    padding: 20mm 15mm;
-
-    /* CONTROLE DE QUEBRA */
-    page-break-after: always;
-    break-after: page;
+    padding: 20px 15px;
+    /* espaço nas laterais */
+    display: flex;
+    flex-direction: column;
 }
+
 
 .page:last-child {
     page-break-after: auto;
@@ -163,6 +164,7 @@ body {
     background-size: cover;
     background-position: center;
 }
+
 .center-text-slide1 h1 {
     font-size: 50px;
     font-family: 'Bebas Neue', sans-serif;
@@ -751,7 +753,8 @@ body.formulario-body {
 
 /* ESTILOS ADICIONAIS PARA DESTINOS DINÂMICOS (proposta.html) */
 .destino-pagina {
-    display: none; /* Inicialmente escondido */
+    display: none;
+    /* Inicialmente escondido */
 }
 
 .destino-nome-titulo {
@@ -849,8 +852,10 @@ body.formulario-body {
 #page1 {
     display: flex;
     flex-direction: column;
-    justify-content: center;   /* centro vertical */
-    align-items: center;       /* centro horizontal */
+    justify-content: center;
+    /* centro vertical */
+    align-items: center;
+    /* centro horizontal */
     min-height: 100vh;
     position: relative;
 }
@@ -897,8 +902,10 @@ body.formulario-body {
 #page1 {
     display: flex;
     flex-direction: column;
-    justify-content: center;   /* CENTRALIZA VERTICAL */
-    align-items: center;       /* CENTRALIZA HORIZONTAL */
+    justify-content: center;
+    /* CENTRALIZA VERTICAL */
+    align-items: center;
+    /* CENTRALIZA HORIZONTAL */
     text-align: center;
     position: relative;
     min-height: 100vh;
@@ -907,14 +914,16 @@ body.formulario-body {
 /* Texto central */
 .center-text-slide1 {
     z-index: 2;
-    margin-bottom: 120px; /* espaço para o rodapé */
+    margin-bottom: 120px;
+    /* espaço para o rodapé */
 }
 
 
 /* ==============================
    RESET MOBILE (remove bordas)
 ============================== */
-html, body {
+html,
+body {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -948,7 +957,36 @@ html, body {
     }
 }
 
+/* ==============================
+   PÁGINA 1 – CENTRALIZAÇÃO COMPLETA
+============================== */
+#page1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* centro vertical */
+    align-items: center;
+    /* centro horizontal */
+    text-align: center;
+    min-height: 100vh;
+    /* força altura da tela */
+    padding: 0 15px;
+    /* evita corte nas laterais */
+}
 
+@media screen and (max-width: 768px) {
+    #page1 h1 {
+        font-size: 28px;
+        /* título menor no celular */
+    }
 
+    #page1 h2 {
+        font-size: 22px;
+        /* subtítulo menor */
+    }
 
-
+    .page {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
