@@ -806,41 +806,40 @@ body.formulario-body {
     font-style: italic;
 }
 
-/* ============================= */
 /* DESTINOS MÚLTIPLOS */
-/* ============================= */
 
 .destino-pagina {
-  page-break-before: always;
-  padding: 40px;
-  min-height: 100vh;
-  box-sizing: border-box;
+    display: block !important;
+    page-break-before: always;
+    break-before: page;
+    padding: 20mm 15mm;
+    position: relative;
 }
 
 .destino-nome-titulo {
-  font-size: 34px;
-  text-align: center;
-  margin: 30px 0;
+    font-size: 34px;
+    text-align: center;
+    margin: 30px 0;
+    color: #1f3b73;
 }
 
 .destino-pagina .bloco {
-  margin-bottom: 25px;
+    margin-bottom: 25px;
 }
 
 .destino-pagina .bloco h2 {
-  font-size: 22px;
-  margin-bottom: 8px;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 4px;
+    font-size: 22px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 4px;
 }
 
 .destino-pagina .bloco p {
-  font-size: 16px;
-  line-height: 1.6;
+    font-size: 16px;
+    line-height: 1.6;
 }
 
 /* Ajuste do carrossel dentro do destino */
 .destino-carrossel {
-  margin: 30px 0;
+    margin: 30px 0;
 }
-

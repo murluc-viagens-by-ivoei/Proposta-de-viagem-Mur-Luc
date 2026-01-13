@@ -114,18 +114,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   const destinosContainer = document.getElementById("destinos-container");
   if (destinosContainer && dados.destinosMultiplos && dados.destinosMultiplos.length > 0) {
     destinosContainer.innerHTML = ""; // Limpa container antes de adicionar
-    
+
     dados.destinosMultiplos.forEach((destino, index) => {
+      // Na seção MULTIDESTINOS, após criar a página:
       const page = document.createElement("div");
       page.className = "page destino-pagina";
 
-      page.innerHTML = `
-        <img src="./assets/logo.png" class="logo">
-        <h1 class="destino-nome-titulo">
-          Destino ${index + 1}: ${destino.nome || ""}
-        </h1>
+      // ADICIONE ESTA LINHA para garantir visibilidade:
+      page.style.display = "block";
 
-        <div class="bloco">
+      page.innerHTML = `
+  <img src="./assets/logo.png" class="logo">
+  <h1 class="destino-nome-titulo">
+    Destino ${index + 1}: ${destino.nome || ""}
+  </h1>
+
+  <div class="bloco">
           <h2>Passeios</h2>
           <p>${destino.passeios || ""}</p>
         </div>
