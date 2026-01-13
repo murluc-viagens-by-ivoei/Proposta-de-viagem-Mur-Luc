@@ -1,4 +1,6 @@
 // script-proposta.js
+alert("ARQUIVO NOVO CARREGADO");
+
 import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
