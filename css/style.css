@@ -1262,5 +1262,63 @@ body.formulario-body {
         }
     }
 
+    /* ================================
+   CORREÇÃO DO RODAPÉ NO MOBILE
+================================ */
+    @media screen and (max-width: 768px) {
+        .rodape {
+            position: relative;
+            /* Muda para relative no mobile */
+            margin-top: 20px;
+            bottom: auto;
+        }
+    }
+
+    /* ================================
+   PADRONIZAÇÃO DAS IMAGENS NOS CARROSSEL
+================================ */
+    @media screen and (max-width: 768px) {
+
+        /* Padroniza a altura dos carrosséis */
+        .carrossel-images,
+        .carrossel-images-hotel,
+        .destino-carrossel .carrossel-images,
+        .carrossel-destino-container .carrossel-images {
+            height: 250px !important;
+            /* Altura padrão das imagens */
+            max-height: 250px !important;
+            min-height: 250px !important;
+        }
+
+        /* Padroniza todas as imagens dentro dos carrosséis */
+        .carrossel-image,
+        .carrossel-images img,
+        .carrossel-images-hotel img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            /* Garante que as imagens se ajustem ao tamanho */
+        }
+
+        /* Ajuste nas molduras para as imagens */
+        .moldura,
+        .linha-fotos .moldura {
+            height: 220px !important;
+            /* Altura das imagens dentro das molduras */
+            max-height: 220px !important;
+            min-height: 220px !important;
+            margin-bottom: 15px !important;
+            /* Ajuste de espaçamento */
+        }
+
+        .moldura img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            /* Garante que as imagens se ajustem corretamente */
+        }
+    }
+
+
 
 }
