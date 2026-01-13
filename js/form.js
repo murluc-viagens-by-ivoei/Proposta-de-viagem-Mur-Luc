@@ -5,46 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!form) return;
 
     // =========================
-    // CARROSSEL DE IMAGENS DO HOTEL
-    // =========================
-    const carrosselContainer = document.getElementById("carrossel-hotel-container");
-    const adicionarImagemBtn = document.getElementById("adicionar-imagem-hotel-btn");
-
-    function atualizarTextoBotao() {
-        const total = carrosselContainer.querySelectorAll(".carrossel-imagem").length;
-        adicionarImagemBtn.textContent = `+ Adicionar imagem (${total}/8)`;
-        adicionarImagemBtn.disabled = total >= 8;
-    }
-
-    window.removerImagemCarrossel = (btn, tipo) => {
-        btn.parentElement.remove();
-        atualizarTextoBotao();
-    };
-
-    adicionarImagemBtn.addEventListener("click", () => {
-        const total = carrosselContainer.querySelectorAll(".carrossel-imagem").length;
-        if (total >= 8) return;
-
-        const div = document.createElement("div");
-        div.className = "carrossel-item";
-        div.dataset.index = total + 1;
-        div.innerHTML = `
-            <h4>Imagem ${total + 1}</h4>
-            <input type="text" class="carrossel-imagem" placeholder="URL da imagem">
-            <button type="button" class="remover-imagem">Remover</button>
-        `;
-        div.querySelector(".remover-imagem").onclick = () => {
-            div.remove();
-            atualizarTextoBotao();
-        };
-        carrosselContainer.appendChild(div);
-        atualizarTextoBotao();
-    });
-
-    atualizarTextoBotao();
-
-    // =========================
-    // MULTI DESTINOS
+    // MULTIDESTINOS
     // =========================
     const destinosContainer = document.getElementById("multidestinos-container");
     const adicionarDestinoBtn = document.getElementById("adicionar-destino-btn");
@@ -53,26 +14,49 @@ document.addEventListener("DOMContentLoaded", () => {
         const div = document.createElement("div");
         div.className = "destino-item";
         div.dataset.index = index;
+
         div.innerHTML = `
             <h3>Destino ${index}</h3>
-            <div class="destino-inputs">
-                <label>Nome do destino:</label>
-                <input type="text" class="destino-nome">
-                <label>Passeios:</label>
-                <textarea class="destino-passeios" rows="3"></textarea>
-                <label>Dicas:</label>
-                <textarea class="destino-dicas" rows="3"></textarea>
-            </div>
-            <button type="button" class="remover-destino">Remover Destino</button>
+
+            <label>Nome do destino</label>
+            <input type="text" class="destino-nome">
+
+            <label>Passeios</label>
+            <textarea class="destino-passeios" rows="3"></textarea>
+
+            <label>Dicas</label>
+            <textarea class="destino-dicas" rows="3"></textarea>
+
+            <h4>Imagens do destino (URLs)</h4>
+            <div class="destino-imagens"></div>
+
+            <button type="button" class="add-img-destino">+ Adicionar imagem</button>
+            <button type="button" class="remover-destino">Remover destino</button>
+            <hr>
         `;
+
+        const imagensContainer = div.querySelector(".destino-imagens");
+
+        div.querySelector(".add-img-destino").onclick = () => {
+            if (imagensContainer.children.length >= 6) return;
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "URL da imagem";
+            input.className = "destino-imagem-url";
+
+            imagensContainer.appendChild(input);
+        };
+
         div.querySelector(".remover-destino").onclick = () => {
             div.remove();
-            atualizarTextoDestinos();
+            atualizarTexto();
         };
+
         return div;
     }
 
-    function atualizarTextoDestinos() {
+    function atualizarTexto() {
         const total = destinosContainer.querySelectorAll(".destino-item").length;
         adicionarDestinoBtn.textContent = `+ Adicionar novo destino (${total}/20)`;
         adicionarDestinoBtn.disabled = total >= 20;
@@ -81,71 +65,66 @@ document.addEventListener("DOMContentLoaded", () => {
     adicionarDestinoBtn.addEventListener("click", () => {
         const total = destinosContainer.querySelectorAll(".destino-item").length;
         if (total >= 20) return;
-        const div = criarDestino(total + 1);
-        destinosContainer.appendChild(div);
-        atualizarTextoDestinos();
+
+        destinosContainer.appendChild(criarDestino(total + 1));
+        atualizarTexto();
     });
 
-    atualizarTextoDestinos();
+    atualizarTexto();
 
     // =========================
-    // SALVAR FORMULÁRIO
+    // SUBMIT
     // =========================
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const dados = {
-            destino: document.getElementById("destino")?.value.trim() || "",
-            mesAno: document.getElementById("mesAno")?.value.trim() || "",
-            chegada: document.getElementById("chegada")?.value.trim() || "",
-            traslado: document.getElementById("traslado")?.value.trim() || "",
-            foto01: document.getElementById("foto01")?.value.trim() || "",
-            foto02: document.getElementById("foto02")?.value.trim() || "",
-            foto03: document.getElementById("foto03")?.value.trim() || "",
-            tituloHospedagemCampo: document.getElementById("tituloHospedagemCampo")?.value.trim() || "",
-            hotelCheckinCampo: document.getElementById("hotelCheckinCampo")?.value.trim() || "",
-            hotelCheckoutCampo: document.getElementById("hotelCheckoutCampo")?.value.trim() || "",
-            enderecoCampo: document.getElementById("enderecoCampo")?.value.trim() || "",
-            descricaoCampo: document.getElementById("descricaoCampo")?.value.trim() || "",
-            hotelServicosCampo: document.getElementById("hotelServicosCampo")?.value.trim() || "",
-            dicasCampo: document.getElementById("dicasCampo")?.value.trim() || "",
-            valorHotel: document.getElementById("valorHotel")?.value.trim() || "",
-            valorAereo: document.getElementById("valorAereo")?.value.trim() || "",
-            valorTraslado: document.getElementById("valorTraslado")?.value.trim() || "",
-            valorSeguro: document.getElementById("valorSeguro")?.value.trim() || "",
-            carrosselImagensHotel: [],
+            destino: document.getElementById("destino")?.value || "",
+            mesAno: document.getElementById("mesAno")?.value || "",
+            chegada: document.getElementById("chegada")?.value || "",
+            traslado: document.getElementById("traslado")?.value || "",
+
+            foto01: document.getElementById("foto01")?.value || "",
+            foto02: document.getElementById("foto02")?.value || "",
+            foto03: document.getElementById("foto03")?.value || "",
+
+            tituloHospedagemCampo: document.getElementById("tituloHospedagemCampo")?.value || "",
+            hotelCheckinCampo: document.getElementById("hotelCheckinCampo")?.value || "",
+            hotelCheckoutCampo: document.getElementById("hotelCheckoutCampo")?.value || "",
+            enderecoCampo: document.getElementById("enderecoCampo")?.value || "",
+            descricaoCampo: document.getElementById("descricaoCampo")?.value || "",
+            hotelServicosCampo: document.getElementById("hotelServicosCampo")?.value || "",
+            dicasCampo: document.getElementById("dicasCampo")?.value || "",
+
+            valorHotel: document.getElementById("valorHotel")?.value || 0,
+            valorAereo: document.getElementById("valorAereo")?.value || 0,
+            valorTraslado: document.getElementById("valorTraslado")?.value || 0,
+            valorSeguro: document.getElementById("valorSeguro")?.value || 0,
+
             destinosMultiplos: []
         };
 
-        // Carrossel de imagens
-        carrosselContainer.querySelectorAll(".carrossel-imagem").forEach(img => {
-            if (img.value.trim()) dados.carrosselImagensHotel.push(img.value.trim());
-        });
+        destinosContainer.querySelectorAll(".destino-item").forEach((div, i) => {
+            const imagens = [];
+            div.querySelectorAll(".destino-imagem-url").forEach(input => {
+                if (input.value.trim()) imagens.push(input.value.trim());
+            });
 
-        // Destinos múltiplos
-        destinosContainer.querySelectorAll(".destino-item").forEach((div, index) => {
-            const nome = div.querySelector(".destino-nome")?.value.trim() || "";
-            const passeios = div.querySelector(".destino-passeios")?.value.trim() || "";
-            const dicas = div.querySelector(".destino-dicas")?.value.trim() || "";
-            if (nome || passeios || dicas) {
-                dados.destinosMultiplos.push({ index: index + 1, nome, passeios, dicas });
-            }
+            dados.destinosMultiplos.push({
+                index: i + 1,
+                nome: div.querySelector(".destino-nome")?.value || "",
+                passeios: div.querySelector(".destino-passeios")?.value || "",
+                dicas: div.querySelector(".destino-dicas")?.value || "",
+                carrosselImagensDestino: imagens
+            });
         });
 
         try {
             const id = await salvarProposta(dados);
             window.location.href = `proposta.html?id=${id}`;
         } catch (err) {
-            console.error("Erro ao salvar proposta:", err);
-            alert("Erro ao gerar proposta. Tente novamente.");
+            console.error(err);
+            alert("Erro ao gerar proposta");
         }
     });
-
-    // =========================
-    // LIMPAR FORMULÁRIO
-    // =========================
-    const limparBtn = document.getElementById("limparFormularioBtn");
-    if (limparBtn) {
-        limparBtn.addEventListener("click", () => form.reset());
-    }
 });
