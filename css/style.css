@@ -1161,3 +1161,48 @@ body.formulario-body {
         display: none;
     }
 }
+
+/* ===========================================
+   SOLUÇÃO DEFINITIVA - FORÇAR MESMO TAMANHO EM TODOS OS CARROSSÉIS
+   ADICIONE ESTE CÓDIGO NO FINAL DO SEU ARQUIVO CSS (DEPOIS DE TUDO)
+=========================================== */
+
+/* REMOVER TODAS AS ALTURAS ESPECÍFICAS CONFLITANTES */
+.carrossel-images,
+#carrossel-hotel .carrossel-images,
+.destino-carrossel .carrossel-images,
+.carrossel-destino-container .carrossel-images,
+[class*="carrossel"] .carrossel-images {
+    height: 400px; /* Altura padrão desktop */
+}
+
+/* PARA MOBILE - FORÇAR O MESMO TAMANHO EM TUDO */
+@media screen and (max-width: 768px) {
+    /* RESET COMPLETO - APLICAR A TODOS OS CARROSSÉIS */
+    .carrossel-images,
+    #carrossel-hotel .carrossel-images,
+    .destino-carrossel .carrossel-images,
+    .carrossel-destino-container .carrossel-images,
+    .carrossel-images-hotel,
+    .destino-carrossel .carrossel-images,
+    [class*="carrossel"] .carrossel-images,
+    div[id*="carrossel"] .carrossel-images,
+    div[class*="carrossel"] .carrossel-images {
+        height: 280px !important;
+        min-height: 280px !important;
+        max-height: 280px !important;
+    }
+    
+    /* FORÇAR O MESMO TAMANHO PARA TODAS AS IMAGENS DENTRO DOS CARROSSÉIS */
+    .carrossel-image,
+    #carrossel-hotel .carrossel-image,
+    .destino-carrossel .carrossel-image,
+    .carrossel-images img,
+    .carrossel-images-hotel img,
+    [class*="carrossel"] img,
+    div[id*="carrossel"] img {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: cover !important;
+    }
+}
