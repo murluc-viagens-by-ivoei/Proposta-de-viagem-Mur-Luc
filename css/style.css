@@ -190,25 +190,4 @@ html, body {
     }
 }
 
-/* ================================
-   PÁGINA 1 — CENTRALIZAÇÃO PERFEITA
-================================ */
-#page1 {
-    display: flex;
-    flex-direction: column;
-}
-
-#page1 .center-text-slide1 {
-    flex: 1; /* ocupa o espaço disponível */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* CENTRALIZA VERTICAL */
-    align-items: center;     /* CENTRALIZA HORIZONTAL */
-    text-align: center;
-}
-
-/* Mantém rodapé fixo no fundo */
-#page1 .rodape {
-    margin-top: auto;
-}
 
