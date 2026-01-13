@@ -12,8 +12,7 @@
 /* ================================
    RESET / BASE
 ================================ */
-html,
-body {
+html, body {
     margin: 0;
     padding: 0;
     background: #ccc;
@@ -35,20 +34,22 @@ body {
 }
 
 /* ================================
-   PÁGINA A4 - RESPONSIVO
+   PÁGINA A4 – TELA
 ================================ */
 .page {
     width: 100%;
-    max-width: 210mm; /* Máximo para desktop */
+    max-width: 210mm;
     min-height: 297mm;
     background: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 20px rgba(0,0,0,.2);
     position: relative;
     box-sizing: border-box;
-    padding: 20px 15px; /* Unidades relativas */
+    padding: 20px 15px;
     margin: 0 auto;
 
-    /* CONTROLE DE QUEBRA */
+    display: flex;
+    flex-direction: column;
+
     page-break-after: always;
     break-after: page;
 }
@@ -67,11 +68,12 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+    flex-grow: 1;
     padding: 40px 20px;
 }
 
 /* ================================
-   LOGO / RODAPÉ - CORRIGIDO
+   LOGO
 ================================ */
 .logo {
     max-width: 250px;
@@ -81,529 +83,109 @@ body {
     display: block;
 }
 
+/* ================================
+   RODAPÉ – TELA (FINAL)
+================================ */
 .rodape {
+    margin-top: auto;
     width: 100%;
     text-align: center;
-    margin-top: auto;
     padding: 20px 0;
-    position: relative; /* Remove absolute para flexibilidade */
 }
 
 .rodape img {
-    max-width: 90%;
+    max-width: 100%;
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 /* ================================
-   IMAGENS - RESPONSIVAS
+   IMAGENS
 ================================ */
 .moldura {
     width: 100%;
-    height: auto;
     min-height: 200px;
     max-height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background: rgba(255, 255, 255, .25);
-    border: 1px solid rgba(0, 0, 0, .15);
+    border: 1px solid rgba(0,0,0,.15);
     border-radius: 6px;
     margin-bottom: 12px;
-
-    break-inside: avoid;
-    page-break-inside: avoid;
 }
 
 .moldura img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-/* PROTEÇÃO CONTRA IMAGEM VAZIA */
-.moldura img[src=""],
-.moldura img:not([src]) {
-    display: none;
 }
 
 .linha-fotos {
     display: flex;
-    flex-direction: column; /* Coluna no mobile */
+    flex-direction: column;
     gap: 10px;
     width: 100%;
     margin-top: 20px;
-
-    break-inside: avoid;
-    page-break-inside: avoid;
-}
-
-.linha-fotos .moldura {
-    flex: 1;
-    height: 200px; /* Altura fixa menor para mobile */
 }
 
 /* ================================
-   TEXTOS / INFOS
+   TEXTOS
 ================================ */
 .infos {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    font-size: 16px; /* Tamanho menor para mobile */
-}
-
-.bloco {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.infos h2,
-.bloco h2 {
-    font-size: 18px; /* Reduzido para mobile */
-    font-weight: 600;
-    margin: 0 0 5px;
-}
-
-.infos p,
-.bloco p {
-    font-size: 14px; /* Reduzido para mobile */
-    line-height: 1.5;
-    margin: 0 0 8px;
+    font-size: 16px;
 }
 
 /* ================================
-   SLIDE 1
-================================ */
-#slide1 {
-    background-image: url("assets/bg/slide1.jpg.png");
-    background-size: cover;
-    background-position: center;
-}
-
-#page1 {
-    background-image: url("../assets/bg/slide1.jpg.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.center-text-slide1 h1 {
-    font-size: 32px; /* Reduzido para mobile */
-    font-family: 'Bebas Neue', sans-serif;
-    margin: 0;
-    line-height: 1.2;
-}
-
-.center-text-slide1 h2 {
-    font-size: 28px; /* Reduzido para mobile */
-    color: var(--pink);
-    font-family: 'Bebas Neue', sans-serif;
-    margin: 10px 0 0;
-}
-
-/* ================================
-   CARROSSEL - RESPONSIVO
-================================ */
-.carrossel {
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
-    position: relative;
-    break-inside: avoid;
-    page-break-inside: avoid;
-}
-
-.carrossel-images {
-    width: 100%;
-    height: 250px; /* Altura reduzida para mobile */
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.carrossel-image {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.carrossel-image.active {
-    opacity: 1;
-}
-
-.carrossel-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    padding: 0 10px;
-}
-
-.carrossel-prev,
-.carrossel-next {
-    background: var(--pink);
-    color: white;
-    border: none;
-    width: 40px; /* Botões menores */
-    height: 40px;
-    border-radius: 50%;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
-}
-
-.carrossel-prev:hover,
-.carrossel-next:hover {
-    background: var(--pink-dark);
-}
-
-.carrossel-dots {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-grow: 1;
-}
-
-.carrossel-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #ddd;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.carrossel-dot.active {
-    background: var(--pink);
-}
-
-.carrossel-counter {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #666;
-    font-weight: 500;
-}
-
-/* ================================
-   VALORES - RESPONSIVO
-================================ */
-.price-card {
-    width: 100%;
-    max-width: 700px;
-    background: var(--pink);
-    border-radius: var(--radius);
-    padding: 20px;
-    color: #fff;
-    margin: 30px auto 0;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .4);
-}
-
-.items {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.row {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    column-gap: 15px;
-    align-items: center;
-}
-
-.label {
-    font-size: 18px; /* Reduzido para mobile */
-}
-
-.price {
-    font-size: 18px; /* Reduzido para mobile */
-    font-weight: 700;
-    min-width: 120px; /* Reduzido */
-    text-align: right;
-}
-
-.dots {
-    width: 100%;
-    height: 1px;
-    background-image: radial-gradient(circle, rgba(255, 255, 255, .9) 2px, transparent 2px);
-    background-size: 12px 1px; /* Reduzido */
-    background-repeat: repeat-x;
-}
-
-.row.total {
-    margin-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, .3);
-    padding-top: 10px;
-}
-
-.row.total .label,
-.row.total .price {
-    font-size: 24px; /* Reduzido para mobile */
-    font-weight: 800;
-}
-
-.row.total .dots {
-    display: none;
-}
-
-/* ================================
-   MEDIA QUERIES PARA TELAS MAIORES
+   MEDIA – TELAS MAIORES
 ================================ */
 @media screen and (min-width: 768px) {
-    .page {
-        padding: 20mm 15mm; /* Volta ao padding original em desktop */
-    }
-    
     .linha-fotos {
-        flex-direction: row; /* Linha horizontal em desktop */
-    }
-    
-    .linha-fotos .moldura {
-        height: 85mm; /* Altura original em desktop */
-    }
-    
-    .center-text-slide1 h1 {
-        font-size: 50px;
-    }
-    
-    .center-text-slide1 h2 {
-        font-size: 42px;
-    }
-    
-    .infos h2,
-    .bloco h2 {
-        font-size: 20px;
-    }
-    
-    .infos p,
-    .bloco p {
-        font-size: 16px;
-    }
-    
-    .carrossel-images {
-        height: 400px;
-    }
-    
-    .carrossel-prev,
-    .carrossel-next {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-    }
-    
-    .label {
-        font-size: 24px;
-    }
-    
-    .price {
-        font-size: 24px;
-        min-width: 150px;
-    }
-    
-    .row.total .label,
-    .row.total .price {
-        font-size: 32px;
+        flex-direction: row;
     }
 }
 
 @media screen and (min-width: 1024px) {
     .page {
-        width: 210mm; /* Largura fixa apenas em desktop grande */
+        width: 210mm;
         height: 297mm;
+        padding: 20mm 15mm;
     }
 }
 
 /* ================================
-   IMPRESSÃO
+   IMPRESSÃO – ÚNICA E CORRETA
 ================================ */
 @media print {
+
     body {
         background: white;
     }
-    
+
     .pages-wrapper {
         padding: 0;
         gap: 0;
     }
-    
+
     .page {
-        box-shadow: none;
-        margin: 0;
-        padding: 0;
         width: 210mm;
         height: 297mm;
-    }
-    
-    .rodape {
-        position: absolute;
-        bottom: 10mm;
-    }
-}
-
-/* ================================
-   PÁGINA A4 - ESTRUTURA FLEX
-================================ */
-.page {
-    width: 100%;
-    max-width: 210mm;
-    min-height: 297mm;
-    background: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
-    box-sizing: border-box;
-    padding: 20px 15px;
-    margin: 0 auto;
-    
-    /* FLEXBOX PARA ESTRUTURA INTERNA */
-    display: flex;
-    flex-direction: column;
-    
-    page-break-after: always;
-    break-after: page;
-}
-
-/* ================================
-   RODAPÉ - CORREÇÃO DEFINITIVA
-================================ */
-.rodape {
-    width: 100%;
-    text-align: center;
-    margin-top: auto;  /* Isso empurra o rodapé para baixo */
-    padding-top: 30px;
-    padding-bottom: 20px;
-}
-
-.rodape img {
-    max-width: 90%;
-    height: auto;
-    display: inline-block;
-}
-
-/* ================================
-   PÁGINA 1 (CENTER-PAGE) - AJUSTE
-================================ */
-.center-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;  /* Centraliza verticalmente */
-    align-items: center;
-    text-align: center;
-    flex-grow: 1;  /* Ocupa espaço disponível */
-    padding: 40px 20px;
-}
-
-/* Ajuste específico para Página 1 com fundo */
-#page1.center-page {
-    justify-content: space-between; /* Título no meio, rodapé embaixo */
-}
-
-/* ================================
-   PÁGINAS COM CONTEÚDO VARIÁVEL
-================================ */
-/* Para páginas com pouco conteúdo, garantir que rodapé fique embaixo */
-.page > *:not(.rodape) {
-    flex-shrink: 0; /* Evita compressão do conteúdo */
-}
-
-/* ================================
-   IMPRESSÃO - MANTÉM POSIÇÃO FIXA
-================================ */
-@media print {
-    .page {
-        display: block; /* Volta ao display block para impressão */
-        position: relative;
+        margin: 0;
         padding: 20mm 15mm;
+        box-shadow: none;
+        display: block;
+        position: relative;
     }
-    
+
     .rodape {
         position: absolute;
         bottom: 10mm;
         left: 0;
         right: 0;
-        margin-top: 0;
-    }
-    
-    /* Página 1 na impressão */
-    #page1.center-page {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        margin: 0;
     }
 }
-
-/* ================================
-   MEDIA QUERIES PARA DESKTOP
-================================ */
-@media screen and (min-width: 1024px) {
-    .page {
-        width: 210mm;
-        height: 297mm;
-        padding: 20mm 15mm;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    /* Garante que conteúdo não ultrapasse com rodapé fixo */
-    .page > *:not(.rodape) {
-        max-height: calc(297mm - 40mm - 50px); /* Altura total - padding - rodapé estimado */
-        overflow-y: auto;
-    }
-}
-
-/* ================================
-   AJUSTE ESPECÍFICO PARA PÁGINA DE VALORES
-================================ */
-#page-valores {
-    display: flex;
-    flex-direction: column;
-}
-
-#page-valores .price-card {
-    margin-top: auto; /* Empurra card para cima do rodapé */
-    margin-bottom: 30px;
-}
-
-/* ================================
-   AJUSTE PARA PÁGINA COM CARROSSEL
-================================ */
-#page4 {
-    display: flex;
-    flex-direction: column;
-}
-
-#page4 .carrossel {
-    flex-grow: 1; /* O carrossel ocupa espaço disponível */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-/* ================================
-   AJUSTE PARA PÁGINA DE DICAS
-================================ */
-#page-dicas {
-    display: flex;
-    flex-direction: column;
-}
-
-#page-dicas .dicas {
-    flex-grow: 1; /* Conteúdo ocupa espaço disponível */
-    margin-bottom: 30px;
-}
-
-/* ================================
-   ESTILOS DO FORMULÁRIO (index.html) 
-   (Mantidos como estavam)
-================================ */
-/* ... (seu código original para o formulário permanece aqui) ... */
