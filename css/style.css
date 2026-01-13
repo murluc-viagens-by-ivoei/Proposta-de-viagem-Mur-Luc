@@ -372,7 +372,7 @@ body {
     .carrossel-images {
         height: 350px;
     }
-    
+
     .destino-carrossel .carrossel-images {
         height: 350px;
     }
@@ -380,7 +380,7 @@ body {
 
 @media screen and (max-width: 768px) {
     /* PADRÃO UNIFICADO PARA TODAS AS IMAGENS NO MOBILE */
-    
+
     /* 1. MOLDURAS PRINCIPAIS */
     .moldura,
     .linha-fotos .moldura {
@@ -389,19 +389,19 @@ body {
         max-height: 200px;
         margin-bottom: 15px !important;
     }
-    
+
     .moldura img,
     .linha-fotos .moldura img {
         height: 100% !important;
         width: 100% !important;
         object-fit: cover !important;
     }
-    
+
     .linha-fotos {
         flex-direction: column;
         gap: 15px;
     }
-    
+
     /* 2. TODOS OS CARROSSÉIS */
     .carrossel,
     #carrossel-hotel,
@@ -412,7 +412,7 @@ body {
         margin: 20px 0 !important;
         padding: 0 !important;
     }
-    
+
     /* 3. TODOS OS CONTAINERS DE IMAGEM DO CARROSSEL */
     .carrossel-images,
     #carrossel-hotel .carrossel-images,
@@ -424,7 +424,7 @@ body {
         min-height: 250px !important;
         max-height: 250px !important;
     }
-    
+
     /* 4. TODAS AS IMAGENS DENTRO DOS CARROSSÉIS */
     .carrossel-image,
     #carrossel-hotel .carrossel-image,
@@ -436,7 +436,7 @@ body {
         width: 100% !important;
         object-fit: cover !important;
     }
-    
+
     /* 5. CONTROLES DO CARROSSEL */
     .carrossel-controls {
         padding: 0 5px !important;
@@ -448,7 +448,7 @@ body {
         height: 40px !important;
         font-size: 16px !important;
     }
-    
+
     /* 6. DESTINOS MÚLTIPLOS ESPECÍFICO */
     .destino-pagina {
         padding: 15px !important;
@@ -465,7 +465,7 @@ body {
         margin-bottom: 20px !important;
     }
 
-    .destino-pagina > *:not(.rodape) {
+    .destino-pagina>*:not(.rodape) {
         margin-bottom: 15px !important;
     }
 }
@@ -1141,7 +1141,7 @@ body.formulario-body {
         page-break-before: always;
         break-before: page;
     }
-    
+
     .destino-carrossel .carrossel-images {
         height: auto;
         display: grid;
@@ -1173,11 +1173,13 @@ body.formulario-body {
 .destino-carrossel .carrossel-images,
 .carrossel-destino-container .carrossel-images,
 [class*="carrossel"] .carrossel-images {
-    height: 400px; /* Altura padrão desktop */
+    height: 400px;
+    /* Altura padrão desktop */
 }
 
 /* PARA MOBILE - FORÇAR O MESMO TAMANHO EM TUDO */
 @media screen and (max-width: 768px) {
+
     /* RESET COMPLETO - APLICAR A TODOS OS CARROSSÉIS */
     .carrossel-images,
     #carrossel-hotel .carrossel-images,
@@ -1192,7 +1194,7 @@ body.formulario-body {
         min-height: 280px !important;
         max-height: 280px !important;
     }
-    
+
     /* FORÇAR O MESMO TAMANHO PARA TODAS AS IMAGENS DENTRO DOS CARROSSÉIS */
     .carrossel-image,
     #carrossel-hotel .carrossel-image,
@@ -1204,5 +1206,114 @@ body.formulario-body {
         height: 100% !important;
         width: 100% !important;
         object-fit: cover !important;
+    }
+}
+
+/* ================================
+   RESPONSIVIDADE PARA MOBILE (≤ 768px)
+================================ */
+@media screen and (max-width: 768px) {
+    body {
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .pages-wrapper {
+        padding: 0 !important;
+        background: #fff !important;
+        gap: 0 !important;
+    }
+
+    .page {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 100vh;
+        background: #fff;
+        position: relative;
+        box-sizing: border-box;
+        padding: 20px 15px !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        page-break-after: always;
+        break-after: page;
+    }
+
+    /* ================================
+       IMAGENS - Ajuste de tamanhos para o mobile
+    ================================= */
+    /* 1. RESET COMPLETO DE TODOS OS CONTAINERS DE IMAGEM */
+    .carrossel-images,
+    #carrossel-hotel .carrossel-images,
+    .destino-carrossel .carrossel-images,
+    .carrossel-destino-container .carrossel-images,
+    .destino-carrossel .carrossel-images,
+    .carrossel-images-hotel {
+        height: 280px !important;
+        min-height: 280px !important;
+        max-height: 280px !important;
+    }
+
+    /* 2. RESET DE TODAS AS IMAGENS DENTRO DOS CARROSSÉIS */
+    .carrossel-image,
+    #carrossel-hotel .carrossel-image,
+    .destino-carrossel .carrossel-image,
+    .carrossel-images img,
+    .carrossel-images-hotel img {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: cover !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    /* 3. RESET DAS MOLDURAS PRINCIPAIS */
+    .moldura,
+    .linha-fotos .moldura {
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .moldura img,
+    .linha-fotos .moldura img {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: cover !important;
+    }
+
+    /* 4. GARANTIR QUE OS CONTAINERS NÃO TENHAM PADDING/MARGIN QUE AFETE */
+    .carrossel,
+    #carrossel-hotel,
+    .destino-carrossel,
+    .carrossel-destino-container {
+        margin: 15px 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 5. FORÇAR O MESMO ESTILO PARA TODOS OS CARROSSÉIS */
+    [class*="carrossel"] .carrossel-images,
+    div[id*="carrossel"] .carrossel-images,
+    div[class*="carrossel"] .carrossel-images {
+        height: 280px !important;
+    }
+
+    /* ================================
+       LOGO E RODAPÉ - Ajuste para mobile
+    ================================= */
+    .logo {
+        width: 180px !important;
+        margin: 10px auto !important;
+    }
+
+    .rodape {
+        margin-top: 20px;
+    }
+
+    .rodape img {
+        width: 100%;
     }
 }
