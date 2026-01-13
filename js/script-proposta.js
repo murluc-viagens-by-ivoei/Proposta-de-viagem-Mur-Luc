@@ -120,7 +120,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     div.className = "page destino-pagina";
 
     div.innerHTML = `
-            <img src="/Proposta-de-viagem-Mur-Luc/assets/logo.png" class="logo" alt="Logo">
+            <img src="./assets/logo.png" class="logo" alt="Logo">
+
 
             <h1 class="destino-nome-titulo">
                 Destino ${index + 1}: ${destino.nome || ""}
@@ -133,8 +134,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
 
     // ===== CARROSSEL DE IMAGENS DO DESTINO =====
-    if (destino.carrosselImagensDestino && destino.carrosselImagensDestino.length > 0) {
-      const imagensDestino = destino.carrosselImagensDestino.filter(Boolean);
+    if (destino.imagens && destino.imagens.length > 0) {
+
+      const imagensDestino = destino.imagens.filter(Boolean);
       let currentIndexDestino = 0;
 
       const carouselDiv = document.createElement("div");
@@ -216,7 +218,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const rodape = document.createElement("div");
     rodape.className = "rodape";
     rodape.innerHTML = `
-            <img src="/Proposta-de-viagem-Mur-Luc/assets/rodape.png" alt="Rodapé">
+            <img src="./assets/rodape.png" alt="Rodapé">
         `;
     div.appendChild(rodape);
 
