@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ===============================
     setText("destinoCampo", dados.destino);
     setText("mesAnoCampo", dados.mesAno);
+
+    setImg("imgSlide1", dados.foto01); // SLIDE 1 (imagem principal)
+    
     setText("chegadaCampo", dados.chegada);
     setText("trasladoCampo", dados.traslado);
 
@@ -155,3 +158,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     console.log("✅ Proposta renderizada com sucesso");
 });
+
