@@ -232,9 +232,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       const row = document.createElement("div");
       row.className = "row";
       row.innerHTML = `
-        <span class="label">${item.label}</span>
-        <span class="dots"></span>
-        <span class="price">R$ ${item.value || 0}</span>
+        row.innerHTML = `
+        < span class="label" > ${ item.label }</span >
+  <span class="dots"></span>
+  <span class="price">R$ ${item.value.toFixed(2)}</span>
+      `;
+
       `;
       itemsList.appendChild(row);
     });
@@ -245,7 +248,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     totalRow.innerHTML = `
       <span class="label">TOTAL</span>
       <span class="dots"></span>
-      <span class="price">R$ ${total}</span>
+      <span class="price">R$ ${item.value.toFixed(2)}</span>
     `;
     itemsList.appendChild(totalRow);
   }
