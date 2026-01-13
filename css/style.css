@@ -453,6 +453,156 @@ body {
 }
 
 /* ================================
+   PÁGINA A4 - ESTRUTURA FLEX
+================================ */
+.page {
+    width: 100%;
+    max-width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+    box-sizing: border-box;
+    padding: 20px 15px;
+    margin: 0 auto;
+    
+    /* FLEXBOX PARA ESTRUTURA INTERNA */
+    display: flex;
+    flex-direction: column;
+    
+    page-break-after: always;
+    break-after: page;
+}
+
+/* ================================
+   RODAPÉ - CORREÇÃO DEFINITIVA
+================================ */
+.rodape {
+    width: 100%;
+    text-align: center;
+    margin-top: auto;  /* Isso empurra o rodapé para baixo */
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.rodape img {
+    max-width: 90%;
+    height: auto;
+    display: inline-block;
+}
+
+/* ================================
+   PÁGINA 1 (CENTER-PAGE) - AJUSTE
+================================ */
+.center-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Centraliza verticalmente */
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;  /* Ocupa espaço disponível */
+    padding: 40px 20px;
+}
+
+/* Ajuste específico para Página 1 com fundo */
+#page1.center-page {
+    justify-content: space-between; /* Título no meio, rodapé embaixo */
+}
+
+/* ================================
+   PÁGINAS COM CONTEÚDO VARIÁVEL
+================================ */
+/* Para páginas com pouco conteúdo, garantir que rodapé fique embaixo */
+.page > *:not(.rodape) {
+    flex-shrink: 0; /* Evita compressão do conteúdo */
+}
+
+/* ================================
+   IMPRESSÃO - MANTÉM POSIÇÃO FIXA
+================================ */
+@media print {
+    .page {
+        display: block; /* Volta ao display block para impressão */
+        position: relative;
+        padding: 20mm 15mm;
+    }
+    
+    .rodape {
+        position: absolute;
+        bottom: 10mm;
+        left: 0;
+        right: 0;
+        margin-top: 0;
+    }
+    
+    /* Página 1 na impressão */
+    #page1.center-page {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
+
+/* ================================
+   MEDIA QUERIES PARA DESKTOP
+================================ */
+@media screen and (min-width: 1024px) {
+    .page {
+        width: 210mm;
+        height: 297mm;
+        padding: 20mm 15mm;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Garante que conteúdo não ultrapasse com rodapé fixo */
+    .page > *:not(.rodape) {
+        max-height: calc(297mm - 40mm - 50px); /* Altura total - padding - rodapé estimado */
+        overflow-y: auto;
+    }
+}
+
+/* ================================
+   AJUSTE ESPECÍFICO PARA PÁGINA DE VALORES
+================================ */
+#page-valores {
+    display: flex;
+    flex-direction: column;
+}
+
+#page-valores .price-card {
+    margin-top: auto; /* Empurra card para cima do rodapé */
+    margin-bottom: 30px;
+}
+
+/* ================================
+   AJUSTE PARA PÁGINA COM CARROSSEL
+================================ */
+#page4 {
+    display: flex;
+    flex-direction: column;
+}
+
+#page4 .carrossel {
+    flex-grow: 1; /* O carrossel ocupa espaço disponível */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ================================
+   AJUSTE PARA PÁGINA DE DICAS
+================================ */
+#page-dicas {
+    display: flex;
+    flex-direction: column;
+}
+
+#page-dicas .dicas {
+    flex-grow: 1; /* Conteúdo ocupa espaço disponível */
+    margin-bottom: 30px;
+}
+
+/* ================================
    ESTILOS DO FORMULÁRIO (index.html) 
    (Mantidos como estavam)
 ================================ */
