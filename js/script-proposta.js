@@ -1,5 +1,4 @@
 // script-proposta.js
-alert("ARQUIVO NOVO CARREGADO");
 
 import { buscarProposta } from "./storage.js";
 
@@ -211,5 +210,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     destinosContainer.appendChild(page);
   });
 
-  console.log("✅ script-proposta carregado corretamente");
+  console.log("🚀 SCRIPT-PROPOSTA v2 OK");
 });
