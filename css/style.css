@@ -1200,4 +1200,67 @@ body.formulario-body {
             /* Mesma altura */
         }
     }
+
+    @media screen and (max-width: 768px) {
+    /* 1. RESET COMPLETO DE TODOS OS CONTAINERS DE IMAGEM */
+    .carrossel-images,
+    #carrossel-hotel .carrossel-images,
+    .destino-carrossel .carrossel-images,
+    .carrossel-destino-container .carrossel-images,
+    .destino-carrossel .carrossel-images,
+    .carrossel-images-hotel {
+        height: 280px !important;
+        min-height: 280px !important;
+        max-height: 280px !important;
+    }
+    
+    /* 2. RESET DE TODAS AS IMAGENS DENTRO DOS CARROSSÉIS */
+    .carrossel-image,
+    #carrossel-hotel .carrossel-image,
+    .destino-carrossel .carrossel-image,
+    .carrossel-images img,
+    .carrossel-images-hotel img {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: cover !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    /* 3. RESET DAS MOLDURAS PRINCIPAIS */
+    .moldura,
+    .linha-fotos .moldura {
+        height: 220px !important;
+        min-height: 220px !important;
+        max-height: 220px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .moldura img,
+    .linha-fotos .moldura img {
+        height: 100% !important;
+        width: 100% !important;
+        object-fit: cover !important;
+    }
+    
+    /* 4. GARANTIR QUE OS CONTAINERS NÃO TENHAM PADDING/MARGIN QUE AFETE */
+    .carrossel,
+    #carrossel-hotel,
+    .destino-carrossel,
+    .carrossel-destino-container {
+        margin: 15px 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* 5. FORÇAR O MESMO ESTILO PARA TODOS OS CARROSSÉIS */
+    [class*="carrossel"] .carrossel-images,
+    div[id*="carrossel"] .carrossel-images,
+    div[class*="carrossel"] .carrossel-images {
+        height: 280px !important;
+    }
 }
+
+    
+}
+
