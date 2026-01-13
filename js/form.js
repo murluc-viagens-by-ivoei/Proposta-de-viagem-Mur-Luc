@@ -16,11 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     adicionarImagemBtn.disabled = total >= 8;
   }
 
-  window.removerImagemCarrossel = (btn) => {
-    btn.parentElement.remove();
-    atualizarTextoBotao();
-  };
-
   adicionarImagemBtn.addEventListener("click", () => {
     const total = carrosselContainer.querySelectorAll(".carrossel-imagem").length;
     if (total >= 8) return;
@@ -32,10 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
       <input type="text" class="carrossel-imagem" placeholder="URL da imagem">
       <button type="button" class="remover-imagem">Remover</button>
     `;
+
     div.querySelector(".remover-imagem").onclick = () => {
       div.remove();
       atualizarTextoBotao();
     };
+
     carrosselContainer.appendChild(div);
     atualizarTextoBotao();
   });
@@ -75,9 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     const imagensContainer = div.querySelector(".destino-carrossel-container");
-    const addImagemBtn = div.querySelector(".adicionar-imagem-destino-btn");
-
-    addImagemBtn.onclick = () => {
+    div.querySelector(".adicionar-imagem-destino-btn").onclick = () => {
       const input = document.createElement("input");
       input.type = "text";
       input.placeholder = "URL da imagem";
@@ -100,51 +95,56 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const dados = {
-      destino: document.getElementById("destino")?.value || "",
-      mesAno: document.getElementById("mesAno")?.value || "",
-      chegada: document.getElementById("chegada")?.value || "",
-      traslado: document.getElementById("traslado")?.value || "",
-      foto01: document.getElementById("foto01")?.value || "",
-      foto02: document.getElementById("foto02")?.value || "",
-      foto03: document.getElementById("foto03")?.value || "",
-      tituloHospedagemCampo: document.getElementById("tituloHospedagemCampo")?.value || "",
-      hotelCheckinCampo: document.getElementById("hotelCheckinCampo")?.value || "",
-      hotelCheckoutCampo: document.getElementById("hotelCheckoutCampo")?.value || "",
-      enderecoCampo: document.getElementById("enderecoCampo")?.value || "",
-      descricaoCampo: document.getElementById("descricaoCampo")?.value || "",
-      hotelServicosCampo: document.getElementById("hotelServicosCampo")?.value || "",
-      dicasCampo: document.getElementById("dicasCampo")?.value || "",
-      valorHotel: document.getElementById("valorHotel")?.value || "",
-      valorAereo: document.getElementById("valorAereo")?.value || "",
-      valorTraslado: document.getElementById("valorTraslado")?.value || "",
-      valorSeguro: document.getElementById("valorSeguro")?.value || "",
-      carrosselImagensHotel: [],
-      destinosMultiplos: []
-    };
+    try {
+      const dados = {
+        destino: document.getElementById("destino")?.value || "",
+        mesAno: document.getElementById("mesAno")?.value || "",
+        chegada: document.getElementById("chegada")?.value || "",
+        traslado: document.getElementById("traslado")?.value || "",
+        foto01: document.getElementById("foto01")?.value || "",
+        foto02: document.getElementById("foto02")?.value || "",
+        foto03: document.getElementById("foto03")?.value || "",
+        tituloHospedagemCampo: document.getElementById("tituloHospedagemCampo")?.value || "",
+        hotelCheckinCampo: document.getElementById("hotelCheckinCampo")?.value || "",
+        hotelCheckoutCampo: document.getElementById("hotelCheckoutCampo")?.value || "",
+        enderecoCampo: document.getElementById("enderecoCampo")?.value || "",
+        descricaoCampo: document.getElementById("descricaoCampo")?.value || "",
+        hotelServicosCampo: document.getElementById("hotelServicosCampo")?.value || "",
+        dicasCampo: document.getElementById("dicasCampo")?.value || "",
+        valorHotel: Number(document.getElementById("valorHotel")?.value || 0),
+        valorAereo: Number(document.getElementById("valorAereo")?.value || 0),
+        valorTraslado: Number(document.getElementById("valorTraslado")?.value || 0),
+        valorSeguro: Number(document.getElementById("valorSeguro")?.value || 0),
+        carrosselImagensHotel: [],
+        destinosMultiplos: []
+      };
 
-    // hotel
-    carrosselContainer.querySelectorAll(".carrossel-imagem").forEach(i => {
-      if (i.value) dados.carrosselImagensHotel.push(i.value);
-    });
-
-    // destinos
-    destinosContainer.querySelectorAll(".destino-item").forEach((div, index) => {
-      const imagens = [];
-      div.querySelectorAll(".carrossel-imagem-destino").forEach(i => {
-        if (i.value) imagens.push(i.value);
+      // hotel
+      carrosselContainer.querySelectorAll(".carrossel-imagem").forEach(i => {
+        if (i.value) dados.carrosselImagensHotel.push(i.value);
       });
 
-      dados.destinosMultiplos.push({
-        index: index + 1,
-        nome: div.querySelector(".destino-nome")?.value || "",
-        passeios: div.querySelector(".destino-passeios")?.value || "",
-        dicas: div.querySelector(".destino-dicas")?.value || "",
-        imagens
-      });
-    });
+      // destinos
+      destinosContainer.querySelectorAll(".destino-item").forEach(div => {
+        const imagens = [];
+        div.querySelectorAll(".carrossel-imagem-destino").forEach(i => {
+          if (i.value) imagens.push(i.value);
+        });
 
-    const id = await salvarProposta(dados);
-    window.location.href = `proposta.html?id=${id}`;
+        dados.destinosMultiplos.push({
+          nome: div.querySelector(".destino-nome")?.value || "",
+          passeios: div.querySelector(".destino-passeios")?.value || "",
+          dicas: div.querySelector(".destino-dicas")?.value || "",
+          imagens
+        });
+      });
+
+      const id = await salvarProposta(dados);
+      window.location.href = `proposta.html?id=${id}`;
+
+    } catch (err) {
+      console.error("Erro ao salvar proposta:", err);
+      alert("Erro ao gerar proposta. Verifique o console.");
+    }
   });
 });
