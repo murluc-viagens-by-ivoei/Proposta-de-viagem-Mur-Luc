@@ -786,6 +786,13 @@ body.formulario-body {
     border-radius: 8px;
 }
 
+.destino-pagina {
+    display: block;
+    page-break-before: always;
+    padding: 40px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
 
 .destino-carrossel {
     margin-top: 30px;
