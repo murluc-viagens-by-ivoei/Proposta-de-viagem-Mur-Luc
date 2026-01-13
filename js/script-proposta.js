@@ -1,5 +1,5 @@
 // script-proposta.js
-import { buscarProposta } from "js/storage.js";
+import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("📄 Proposta carregada");
@@ -56,7 +56,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // CARROSSEL DO HOTEL
     // ===============================
     let currentIndexHotel = 0;
-    const hotelImages = (dados.carrosselImagensHotel || []).filter(Boolean);
+    const hotelImages = Array.isArray(dados.carrosselImagensHotel)
+        ? dados.carrosselImagensHotel.filter(Boolean)
+        : [];
 
     const hotelContainer = document.getElementById("carrossel-images-hotel");
     const hotelDots = document.getElementById("carrossel-dots-hotel");
@@ -66,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!hotelContainer || hotelImages.length === 0) return;
 
         hotelContainer.innerHTML = "";
-        hotelDots.innerHTML = "";
+        if (hotelDots) hotelDots.innerHTML = "";
 
         hotelImages.forEach((url, i) => {
             const img = document.createElement("img");
@@ -74,24 +76,30 @@ document.addEventListener("DOMContentLoaded", async () => {
             img.className = "carrossel-image" + (i === currentIndexHotel ? " active" : "");
             hotelContainer.appendChild(img);
 
-            const dot = document.createElement("span");
-            dot.className = "carrossel-dot" + (i === currentIndexHotel ? " active" : "");
-            dot.onclick = () => {
-                currentIndexHotel = i;
-                renderCarouselHotel();
-            };
-            hotelDots.appendChild(dot);
+            if (hotelDots) {
+                const dot = document.createElement("span");
+                dot.className = "carrossel-dot" + (i === currentIndexHotel ? " active" : "");
+                dot.onclick = () => {
+                    currentIndexHotel = i;
+                    renderCarouselHotel();
+                };
+                hotelDots.appendChild(dot);
+            }
         });
 
-        hotelCounter.textContent = `${currentIndexHotel + 1} / ${hotelImages.length}`;
+        if (hotelCounter) {
+            hotelCounter.textContent = `${currentIndexHotel + 1} / ${hotelImages.length}`;
+        }
     }
 
     window.prevSlideHotel = () => {
+        if (hotelImages.length === 0) return;
         currentIndexHotel = (currentIndexHotel - 1 + hotelImages.length) % hotelImages.length;
         renderCarouselHotel();
     };
 
     window.nextSlideHotel = () => {
+        if (hotelImages.length === 0) return;
         currentIndexHotel = (currentIndexHotel + 1) % hotelImages.length;
         renderCarouselHotel();
     };
@@ -103,7 +111,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ===============================
     const destinosContainer = document.getElementById("destinos-container");
 
-    if (dados.destinosMultiplos && dados.destinosMultiplos.length > 0) {
+    if (!destinosContainer) {
+        console.warn("⚠️ destinos-container não encontrado no HTML");
+    } else if (Array.isArray(dados.destinosMultiplos) && dados.destinosMultiplos.length > 0) {
         dados.destinosMultiplos.forEach((destino, index) => {
             criarDestinoCard(destino, index);
         });
@@ -126,8 +136,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
         `;
 
-        // ===== CARROSSEL DE IMAGENS DO DESTINO =====
-        if (destino.carrosselImagensDestino && destino.carrosselImagensDestino.length > 0) {
+        // ===== CARROSSEL DO DESTINO =====
+        if (Array.isArray(destino.carrosselImagensDestino) && destino.carrosselImagensDestino.length > 0) {
             const imagensDestino = destino.carrosselImagensDestino.filter(Boolean);
             let currentIndexDestino = 0;
 
@@ -230,6 +240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ];
 
         itemsList.innerHTML = "";
+
         valores.forEach(item => {
             const row = document.createElement("div");
             row.className = "row";
@@ -254,4 +265,3 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     console.log("✅ Proposta renderizada com sucesso");
 });
-
