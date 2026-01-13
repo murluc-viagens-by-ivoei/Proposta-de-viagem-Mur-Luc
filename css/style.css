@@ -10,6 +10,13 @@
 }
 
 /* ================================
+   SCROLL SUAVE (DICA EXTRA)
+================================ */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ================================
    RESET / BASE
 ================================ */
 html,
@@ -18,17 +25,6 @@ body {
     padding: 0;
     background: #ccc;
     font-family: "Montserrat", sans-serif;
-}
-
-/* ================================
-   RESPONSIVIDADE PARA MOBILE (ADICIONADO)
-================================ */
-@media screen and (max-width: 768px) {
-    body {
-        background: #fff !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
 }
 
 /* ================================
@@ -43,52 +39,86 @@ body {
 }
 
 /* ================================
-   PÁGINA A4
+   PÁGINA A4 - DESKTOP (> 1024px)
 ================================ */
-.page {
-    width: 210mm;
-    height: 297mm;
-    background: #fff;
-    box-shadow: 0 0 20px rgba(0, 0, 0, .2);
-    position: relative;
-    box-sizing: border-box;
-    padding: 20mm 15mm;
-    /* CONTROLE DE QUEBRA */
-    page-break-after: always;
-    break-after: page;
-}
-
-.page:last-child {
-    page-break-after: auto;
-    break-after: auto;
+@media screen and (min-width: 1025px) {
+    .page {
+        width: 210mm;
+        height: 297mm;
+        background: #fff;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        position: relative;
+        box-sizing: border-box;
+        padding: 20mm 15mm;
+        margin: 20px auto;
+        border-radius: 8px;
+        overflow: hidden;
+        /* CONTROLE DE QUEBRA */
+        page-break-after: always;
+        break-after: page;
+    }
+    
+    .pages-wrapper {
+        padding: 40px 20px;
+        background: #f5f5f5;
+    }
 }
 
 /* ================================
-   RESPONSIVIDADE PARA PÁGINAS (ADICIONADO)
+   TABLET (769px - 1024px)
 ================================ */
-@media screen and (max-width: 768px) {
-    .pages-wrapper {
-        padding: 10px 0;
-        gap: 20px;
-    }
-
+@media screen and (min-width: 769px) and (max-width: 1024px) {
     .page {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        min-height: 100vh !important;
-        padding: 15px !important;
-        margin: 0 !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
+        width: 90%;
+        max-width: 800px;
+        height: auto;
+        min-height: 90vh;
+        background: #fff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        position: relative;
+        box-sizing: border-box;
+        padding: 40px 35px;
+        margin: 20px auto;
+        border-radius: 8px;
+        page-break-after: always;
+        break-after: page;
+    }
+    
+    .pages-wrapper {
+        padding: 30px 10px;
+        background: #f0f0f0;
     }
 }
 
-/* Para tablets (768px - 1024px) */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
+/* ================================
+   MOBILE (≤ 768px)
+================================ */
+@media screen and (max-width: 768px) {
+    body {
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .pages-wrapper {
+        padding: 0 !important;
+        background: #fff !important;
+        gap: 0 !important;
+    }
+    
     .page {
-        width: 90% !important;
-        margin: 0 auto !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 100vh;
+        background: #fff;
+        position: relative;
+        box-sizing: border-box;
+        padding: 20px 15px !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        page-break-after: always;
+        break-after: page;
     }
 }
 
@@ -125,21 +155,32 @@ body {
     height: auto;
 }
 
-/* RESPONSIVIDADE PARA LOGO E RODAPÉ (ADICIONADO) */
+/* RESPONSIVIDADE PARA LOGO E RODAPÉ */
+@media screen and (max-width: 1024px) {
+    .logo {
+        width: 200px;
+        margin: 0 auto 10px;
+    }
+    
+    .rodape {
+        position: relative;
+        bottom: auto;
+        margin-top: 30px;
+    }
+    
+    .rodape img {
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .logo {
         width: 180px !important;
         margin: 10px auto !important;
     }
-
+    
     .rodape {
-        position: relative;
-        bottom: auto;
         margin-top: 20px;
-    }
-
-    .rodape img {
-        width: 100% !important;
     }
 }
 
@@ -187,7 +228,17 @@ body {
     height: 85mm;
 }
 
-/* RESPONSIVIDADE PARA IMAGENS (ADICIONADO) */
+/* RESPONSIVIDADE PARA IMAGENS */
+@media screen and (max-width: 1024px) {
+    .moldura {
+        height: 60mm;
+    }
+    
+    .linha-fotos .moldura {
+        height: 70mm;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .moldura {
         height: 50mm !important;
@@ -234,7 +285,21 @@ body {
     margin: 0 0 8px;
 }
 
-/* RESPONSIVIDADE PARA TEXTOS (ADICIONADO) */
+/* RESPONSIVIDADE PARA TEXTOS */
+@media screen and (max-width: 1024px) {
+    .infos {
+        gap: 15px;
+    }
+    
+    .bloco h2 {
+        font-size: 18px;
+    }
+    
+    .bloco p {
+        font-size: 15px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .infos {
         gap: 15px !important;
@@ -282,7 +347,17 @@ body {
     margin: 0;
 }
 
-/* RESPONSIVIDADE PARA SLIDE 1 (ADICIONADO) */
+/* RESPONSIVIDADE PARA SLIDE 1 */
+@media screen and (max-width: 1024px) {
+    .center-text-slide1 h1 {
+        font-size: 40px;
+    }
+    
+    .center-text-slide1 h2 {
+        font-size: 34px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .center-text-slide1 h1 {
         font-size: 36px !important;
@@ -394,7 +469,15 @@ body {
     display: none;
 }
 
-/* RESPONSIVIDADE PARA VALORES (ADICIONADO) */
+/* RESPONSIVIDADE PARA VALORES */
+@media screen and (max-width: 1024px) {
+    .price-card {
+        width: 90%;
+        padding: 25px 30px;
+        margin: 40px auto 0;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .price-card {
         width: 100% !important;
@@ -514,7 +597,17 @@ body {
     font-size: 18px;
 }
 
-/* RESPONSIVIDADE PARA CARROSSEL (ADICIONADO) */
+/* RESPONSIVIDADE PARA CARROSSEL */
+@media screen and (max-width: 1024px) {
+    .carrossel {
+        max-width: 90%;
+    }
+    
+    .carrossel-images {
+        height: 350px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .carrossel {
         width: 100% !important;
@@ -535,13 +628,6 @@ body {
         width: 40px !important;
         height: 40px !important;
         font-size: 16px !important;
-    }
-}
-
-/* Para tablets (768px - 1024px) */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    .carrossel-images {
-        height: 300px !important;
     }
 }
 
@@ -573,7 +659,18 @@ body {
     margin-bottom: 30px;
 }
 
-/* RESPONSIVIDADE ESPECÍFICA PARA DESTINOS (ADICIONADO) */
+/* RESPONSIVIDADE ESPECÍFICA PARA DESTINOS */
+@media screen and (max-width: 1024px) {
+    .destino-pagina {
+        padding: 30px;
+        min-height: auto;
+    }
+    
+    .destino-carrossel .carrossel-images {
+        height: 300px;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .destino-pagina {
         padding: 15px !important;
@@ -716,9 +813,8 @@ body.formulario-body {
     gap: 18px;
 }
 
-/* RESPONSIVIDADE PARA FORMULÁRIO (ADICIONADO) */
+/* RESPONSIVIDADE PARA FORMULÁRIO */
 @media screen and (max-width: 768px) {
-
     body.formulario-body {
         padding: 20px !important;
     }
@@ -963,6 +1059,7 @@ body.formulario-body {
     margin-top: 20px;
 }
 
+/* ESTILOS ADICIONAIS PARA DESTINOS DINÂMICOS (proposta.html) */
 .destino-nome-titulo {
     color: #1f3b73;
     margin-bottom: 15px;
