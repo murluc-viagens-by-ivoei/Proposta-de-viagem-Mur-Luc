@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
 
+
   const setImg = (id, url) => {
     const img = document.getElementById(id);
     if (img && url) {
@@ -109,11 +110,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   // ===============================
   const destinosContainer = document.getElementById("destinos-container");
 
-  if (dados.destinosMultiplos && dados.destinosMultiplos.length > 0) {
-    dados.destinosMultiplos.forEach((destino, index) => {
+  if (dados.multidestinos && dados.multidestinos.length > 0) {
+    dados.multidestinos.forEach((destino, index) => {
       criarDestinoCard(destino, index);
     });
   }
+
 
   function criarDestinoCard(destino, index) {
     const div = document.createElement("div");
