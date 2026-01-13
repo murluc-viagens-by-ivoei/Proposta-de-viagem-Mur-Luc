@@ -1,8 +1,28 @@
+// form.js
 import { salvarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("formCotacao");
     if (!form) return;
+
+    // =========================
+    // IMAGENS DO HOTEL
+    // =========================
+    const hotelImagensContainer = document.getElementById("hotel-imagens");
+    const addHotelImgBtn = document.getElementById("add-img-hotel");
+
+    if (hotelImagensContainer && addHotelImgBtn) {
+        addHotelImgBtn.onclick = () => {
+            if (hotelImagensContainer.children.length >= 6) return;
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "URL da imagem do hotel";
+            input.className = "hotel-imagem-url";
+
+            hotelImagensContainer.appendChild(input);
+        };
+    }
 
     // =========================
     // MULTIDESTINOS
@@ -78,6 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // ----- IMAGENS DO HOTEL -----
+        const imagensHotel = [];
+        document.querySelectorAll(".hotel-imagem-url").forEach(input => {
+            if (input.value.trim()) imagensHotel.push(input.value.trim());
+        });
+
         const dados = {
             destino: document.getElementById("destino")?.value || "",
             mesAno: document.getElementById("mesAno")?.value || "",
@@ -101,6 +127,10 @@ document.addEventListener("DOMContentLoaded", () => {
             valorTraslado: document.getElementById("valorTraslado")?.value || 0,
             valorSeguro: document.getElementById("valorSeguro")?.value || 0,
 
+            // 🔑 CARROSSEL DO HOTEL
+            carrosselImagensHotel: imagensHotel,
+
+            // 🔑 MULTIDESTINOS
             destinosMultiplos: []
         };
 
