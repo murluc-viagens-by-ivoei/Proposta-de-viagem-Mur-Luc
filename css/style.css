@@ -57,7 +57,7 @@ body {
         page-break-after: always;
         break-after: page;
     }
-    
+
     .pages-wrapper {
         padding: 40px 20px;
         background: #f5f5f5;
@@ -83,7 +83,7 @@ body {
         page-break-after: always;
         break-after: page;
     }
-    
+
     .pages-wrapper {
         padding: 30px 10px;
         background: #f0f0f0;
@@ -99,13 +99,13 @@ body {
         margin: 0 !important;
         padding: 0 !important;
     }
-    
+
     .pages-wrapper {
         padding: 0 !important;
         background: #fff !important;
         gap: 0 !important;
     }
-    
+
     .page {
         width: 100% !important;
         height: auto !important;
@@ -161,13 +161,13 @@ body {
         width: 200px;
         margin: 0 auto 10px;
     }
-    
+
     .rodape {
         position: relative;
         bottom: auto;
         margin-top: 30px;
     }
-    
+
     .rodape img {
         width: 100%;
     }
@@ -178,7 +178,7 @@ body {
         width: 180px !important;
         margin: 10px auto !important;
     }
-    
+
     .rodape {
         margin-top: 20px;
     }
@@ -233,7 +233,7 @@ body {
     .moldura {
         height: 60mm;
     }
-    
+
     .linha-fotos .moldura {
         height: 70mm;
     }
@@ -290,11 +290,11 @@ body {
     .infos {
         gap: 15px;
     }
-    
+
     .bloco h2 {
         font-size: 18px;
     }
-    
+
     .bloco p {
         font-size: 15px;
     }
@@ -352,7 +352,7 @@ body {
     .center-text-slide1 h1 {
         font-size: 40px;
     }
-    
+
     .center-text-slide1 h2 {
         font-size: 34px;
     }
@@ -602,7 +602,7 @@ body {
     .carrossel {
         max-width: 90%;
     }
-    
+
     .carrossel-images {
         height: 350px;
     }
@@ -665,7 +665,7 @@ body {
         padding: 30px;
         min-height: auto;
     }
-    
+
     .destino-carrossel .carrossel-images {
         height: 300px;
     }
@@ -1116,7 +1116,8 @@ body.formulario-body {
     padding: 40px;
     min-height: 100vh;
     box-sizing: border-box;
-    display: block !important; /* GARANTE VISIBILIDADE */
+    display: block !important;
+    /* GARANTE VISIBILIDADE */
 }
 
 .destino-nome-titulo {
@@ -1160,5 +1161,43 @@ body.formulario-body {
     .destino-pagina {
         page-break-before: always;
         break-before: page;
+    }
+
+    /* ================================
+   CORREÇÃO RÁPIDA PARA PADRONIZAR IMAGENS NO MOBILE
+================================ */
+    @media screen and (max-width: 768px) {
+
+        /* TODAS AS IMAGENS DE CARROSSEL TERÃO MESMA ALTURA */
+        .carrossel-images {
+            height: 250px !important;
+            min-height: 250px;
+            max-height: 250px;
+        }
+
+        /* TODAS AS IMAGENS DENTRO DOS CARROSSÉIS */
+        .carrossel-image {
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+
+        /* TODAS AS MOLDURAS DE IMAGEM PRINCIPAL */
+        .moldura {
+            height: 200px !important;
+            min-height: 200px;
+            max-height: 200px;
+        }
+
+        /* IMAGENS DENTRO DAS MOLDURAS */
+        .moldura img {
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+
+        /* ESPECÍFICO PARA LINHA DE FOTOS */
+        .linha-fotos .moldura {
+            height: 200px !important;
+            /* Mesma altura */
+        }
     }
 }
