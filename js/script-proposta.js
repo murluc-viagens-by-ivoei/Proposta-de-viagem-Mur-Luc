@@ -1,5 +1,5 @@
 // script-proposta.js
-import { buscarProposta } from "./storage.js";
+import { buscarProposta } from ".js/storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("📄 Proposta carregada");
