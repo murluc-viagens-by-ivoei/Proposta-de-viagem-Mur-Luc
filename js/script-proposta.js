@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   /* SLIDE 1 */
-  setImg("imgSlide1", dados.foto01);
+  setImg("imgSlide1.jpg.png", dados.foto01);
   setText("destinoCampo", dados.destino);
   setText("mesAnoCampo", dados.mesAno);
 
@@ -102,4 +102,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
 });
+
 
