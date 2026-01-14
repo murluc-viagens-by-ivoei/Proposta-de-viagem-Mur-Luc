@@ -21,17 +21,6 @@ html, body {
 }
 
 /* ================================
-   WRAPPER
-================================ */
-.pages-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-    padding: 20px 0;
-}
-
-/* ================================
    PAGE BASE (ÚNICA DEFINIÇÃO)
 ================================ */
 .page {
@@ -50,22 +39,18 @@ html, body {
    CAPA – PAGE 1
 ================================ */
 #page1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 100vh;
-    padding: 20px;
     position: relative;
-    background-image: url("../assets/bg/slide1.jpg.png");
-    background-size: cover;
-    background-position: center;
 }
 
-.center-text-slide1 {
+#page1 .center-text-slide1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    padding: 0 20px;
     z-index: 2;
-    margin-bottom: 120px;
 }
 
 #page1 h1 {
@@ -104,7 +89,6 @@ html, body {
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 6px;
     margin-bottom: 12px;
-    break-inside: avoid;
 }
 
 .moldura img {
@@ -123,7 +107,6 @@ html, body {
     gap: 10px;
     width: 100%;
     margin-top: 20px;
-    break-inside: avoid;
 }
 
 .linha-fotos .moldura {
@@ -150,27 +133,11 @@ html, body {
 .bloco h2 {
     font-size: 20px;
     font-weight: 600;
-    margin-bottom: 5px;
 }
 
 .bloco p {
     font-size: 16px;
     line-height: 1.6;
-}
-
-/* ================================
-   PASSEIOS
-================================ */
-.lista-passeios {
-    font-size: 17px;
-    line-height: 1.5;
-    margin-top: 15px;
-}
-
-.lista-passeios .item {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
 }
 
 /* ================================
@@ -221,24 +188,6 @@ html, body {
 }
 
 /* ================================
-   DESTINOS
-================================ */
-.destino-pagina {
-    display: block;
-    page-break-before: always;
-    padding: 20mm 15mm;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
-
-.destino-nome-titulo {
-    font-size: 34px;
-    text-align: center;
-    margin: 30px 0;
-    color: #1f3b73;
-}
-
-/* ================================
    RODAPÉ
 ================================ */
 .rodape {
@@ -257,8 +206,8 @@ html, body {
 ================================ */
 @media (max-width: 768px) {
     .page {
-        padding: 12px;
         max-width: 100%;
+        padding: 12px;
     }
 
     #page1 h1 {
@@ -269,85 +218,10 @@ html, body {
         font-size: 22px;
     }
 
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-}
-
-/* ================================
-   PRINT
-================================ */
-@media print {
-    .page {
-        min-height: 297mm;
-        page-break-after: always;
-    }
-}
-
-/* ================================
-   CORREÇÃO DEFINITIVA DE LAYOUT
-================================ */
-
-/* WRAPPER não pode centralizar no mobile */
-.pages-wrapper {
-    align-items: stretch;
-}
-
-/* PAGE ocupa 100% no mobile */
-.page {
-    width: 100%;
-    max-width: 100%;
-    min-height: 100svh;
-    padding-left: 14px;
-    padding-right: 14px;
-}
-
-/* ================================
-   CAPA – CENTRALIZAÇÃO REAL
-================================ */
-#page1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center !important;
-    align-items: center !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-}
-
-#page1 .center-text-slide1 {
-    margin: 0;
-    transform: translateY(-40px);
-}
-
-/* REMOVE interferência */
-.center-page {
-    justify-content: center !important;
-}
-
-/* ================================
-   CARROSSEL – MOBILE SAFE
-================================ */
-.carrossel {
-    width: 100%;
-    max-width: 100%;
-    margin: 30px auto;
-}
-
-.carrossel-images {
-    height: 260px;
-}
-
-@media (min-width: 769px) {
     .carrossel-images {
-        height: 400px;
+        height: 260px;
     }
-}
 
-/* ================================
-   VALORES – MOBILE FLEX
-================================ */
-@media (max-width: 768px) {
     .row {
         display: flex;
         flex-direction: column;
@@ -359,16 +233,18 @@ html, body {
         text-align: left;
         font-size: 22px;
     }
-
-    .dots {
-        display: none;
-    }
 }
 
 /* ================================
-   RODAPÉ SEM EMPURRAR CONTEÚDO
+   PRINT
 ================================ */
-.rodape {
-    margin-top: auto;
-}
+@media print {
+    body {
+        background: #fff;
+    }
 
+    .page {
+        min-height: 297mm;
+        page-break-after: always;
+    }
+}
