@@ -923,3 +923,20 @@ body.formulario-body {
         height: 200px !important;
     }
 }
+
+/* AJUSTE DE VIEWPORT META TAG (no HTML) */
+/* Certifique-se que tem esta linha no <head> do seu HTML: */
+/* <meta name="viewport" content="width=device-width, initial-scale=1.0"> */
+
+/* FORÇAR QUEBRA DE TEXTO EM ELEMENTOS LARGOS */
+@media (max-width: 767px) {
+    * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Previne que elementos específicos causem overflow */
+    .infos, .bloco, .price-card, .carrossel {
+        max-width: 100vw !important;
+    }
+}
