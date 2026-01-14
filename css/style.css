@@ -284,3 +284,91 @@ html, body {
         page-break-after: always;
     }
 }
+
+/* ================================
+   CORREÇÃO DEFINITIVA DE LAYOUT
+================================ */
+
+/* WRAPPER não pode centralizar no mobile */
+.pages-wrapper {
+    align-items: stretch;
+}
+
+/* PAGE ocupa 100% no mobile */
+.page {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100svh;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+/* ================================
+   CAPA – CENTRALIZAÇÃO REAL
+================================ */
+#page1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+#page1 .center-text-slide1 {
+    margin: 0;
+    transform: translateY(-40px);
+}
+
+/* REMOVE interferência */
+.center-page {
+    justify-content: center !important;
+}
+
+/* ================================
+   CARROSSEL – MOBILE SAFE
+================================ */
+.carrossel {
+    width: 100%;
+    max-width: 100%;
+    margin: 30px auto;
+}
+
+.carrossel-images {
+    height: 260px;
+}
+
+@media (min-width: 769px) {
+    .carrossel-images {
+        height: 400px;
+    }
+}
+
+/* ================================
+   VALORES – MOBILE FLEX
+================================ */
+@media (max-width: 768px) {
+    .row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .price {
+        text-align: left;
+        font-size: 22px;
+    }
+
+    .dots {
+        display: none;
+    }
+}
+
+/* ================================
+   RODAPÉ SEM EMPURRAR CONTEÚDO
+================================ */
+.rodape {
+    margin-top: auto;
+}
+
