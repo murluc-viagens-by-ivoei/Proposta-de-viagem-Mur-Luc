@@ -36,6 +36,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
+  const formatarMoedaBR = (valor) => {
+    if (valor === null || valor === undefined || valor === "") return "R$ 0,00";
+
+    return Number(valor).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 2
+    });
+  };
+
   // ===============================
   // DADOS PRINCIPAIS
   // ===============================
@@ -216,7 +226,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ===============================
-  // VALORES (FORA DO FORECH DOS DESTINOS!)
+  // VALORES (FORA DO FOREACH DOS DESTINOS!)
   // ===============================
   const itemsList = document.getElementById("itemsList");
   if (itemsList) {
@@ -228,27 +238,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     ];
 
     itemsList.innerHTML = "";
+
     valores.forEach(item => {
       const row = document.createElement("div");
       row.className = "row";
       row.innerHTML = `
-        <span class="label">${item.label}</span>
-        <span class="dots"></span>
-        <span class="price">R$ ${item.value || 0}</span>
-      `;
+      <span class="label">${item.label}</span>
+      <span class="dots"></span>
+      <span class="price">${formatarMoedaBR(item.value)}</span>
+    `;
       itemsList.appendChild(row);
     });
 
-    const total = valores.reduce((acc, cur) => acc + Number(cur.value || 0), 0);
+    const total = valores.reduce(
+      (acc, cur) => acc + Number(cur.value || 0),
+      0
+    );
+
     const totalRow = document.createElement("div");
     totalRow.className = "row total";
     totalRow.innerHTML = `
-      <span class="label">TOTAL</span>
-      <span class="dots"></span>
-      <span class="price">R$ ${total}</span>
-    `;
+    <span class="label">TOTAL</span>
+    <span class="dots"></span>
+    <span class="price">${formatarMoedaBR(total)}</span>
+  `;
     itemsList.appendChild(totalRow);
   }
+
 
   console.log("✅ Proposta renderizada com sucesso");
 });
