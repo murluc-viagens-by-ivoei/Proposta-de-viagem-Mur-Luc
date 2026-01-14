@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderHotel();
 
   // ===============================
-  // MULTIDESTINOS (LINHAS 90-160)
+  // MULTIDESTINOS
   // ===============================
   const destinosContainer = document.getElementById("destinos-container");
   if (destinosContainer && dados.destinosMultiplos && dados.destinosMultiplos.length > 0) {
@@ -123,11 +123,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       // ADICIONE ESTA LINHA para garantir visibilidade:
       page.style.display = "block";
 
-      // AQUI ESTÁ A CORREÇÃO - REMOVA "Destino X:"
       page.innerHTML = `
   <img src="./assets/logo.png" class="logo">
   <h1 class="destino-nome-titulo">
-    ${destino.nome || ""}  <!-- APENAS O NOME DO DESTINO -->
+    Destino ${index + 1}: ${destino.nome || ""}
   </h1>
 
   <div class="bloco">
@@ -135,8 +134,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           <p>${destino.passeios || ""}</p>
         </div>
       `;
-
-      // ... resto do código permanece igual
 
       // === CARROSSEL DO DESTINO ===
       if (destino.imagens && destino.imagens.length > 0) {
