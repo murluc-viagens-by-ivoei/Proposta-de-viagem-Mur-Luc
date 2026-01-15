@@ -1,9 +1,12 @@
 /* ======================================================
-   FORMULÁRIO – ESTILO LUXO SUAVE
-   Apenas aparência – NÃO altera estrutura
+   FORMULÁRIO DE PROPOSTA – LUXO SUAVE
+   Compatível com formulários longos e multi-seções
+   NÃO altera HTML ou JS
 ====================================================== */
 
-/* VARIÁVEIS DE COR */
+/* =========================
+   VARIÁVEIS DE COR
+========================= */
 :root {
   --primary: #7A1E3A;        /* vinho elegante */
   --primary-dark: #64192F;
@@ -14,57 +17,69 @@
 
   --text-main: #2B2B2B;
   --text-muted: #6B6B6B;
+
+  --border-light: #E6E6E6;
 }
 
-/* FUNDO GERAL */
+/* =========================
+   FUNDO GERAL
+========================= */
 body.formulario-body {
   background: var(--bg-main);
   color: var(--text-main);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
-/* FORMULÁRIO */
+/* =========================
+   FORMULÁRIO PRINCIPAL
+========================= */
 form {
   max-width: 1100px;
   margin: 50px auto;
-  padding: 40px;
+  padding: 45px;
   background: var(--bg-card);
-  border-radius: 18px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
 }
 
-/* TÍTULOS */
-form h1,
-form h2,
-form h3 {
-  color: var(--primary);
-  font-weight: 600;
-}
-
+/* =========================
+   TÍTULOS
+========================= */
 form h1 {
   font-size: 30px;
-  text-align: center;
-  width: 100%;
-  margin: 0 auto 40px auto;
-  color: var(--primary);
   font-weight: 600;
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 45px;
 }
-
 
 form h2 {
   font-size: 22px;
-  margin-top: 45px;
-  border-bottom: 2px solid rgba(0,0,0,0.08);
+  font-weight: 600;
+  color: var(--primary);
+  margin: 50px 0 20px;
   padding-bottom: 10px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.08);
 }
 
-/* GRUPOS */
+/* =========================
+   GRUPOS / LINHAS
+========================= */
 .form-group,
 .form-row,
 fieldset {
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
-/* LABELS */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+/* =========================
+   LABELS
+========================= */
 label {
   display: block;
   font-size: 14px;
@@ -73,7 +88,9 @@ label {
   margin-bottom: 6px;
 }
 
-/* INPUTS / SELECT / TEXTAREA */
+/* =========================
+   INPUTS / SELECT / TEXTAREA
+========================= */
 input[type="text"],
 input[type="number"],
 input[type="email"],
@@ -84,7 +101,7 @@ textarea {
   padding: 13px 15px;
   font-size: 15px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-light);
   background: #fff;
   transition: border 0.2s ease, box-shadow 0.2s ease;
 }
@@ -103,48 +120,49 @@ textarea:focus {
   box-shadow: 0 0 0 2px rgba(201, 162, 77, 0.18);
 }
 
-/* FILE INPUT */
+/* =========================
+   FILE INPUT
+========================= */
 input[type="file"] {
   padding: 10px;
   background: #fff;
   border-radius: 10px;
 }
 
-/* GRID RESPONSIVO */
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 18px;
-}
-
-/* FIELDSET */
+/* =========================
+   FIELDSET
+========================= */
 fieldset {
-  border: 1px solid #eee;
-  border-radius: 14px;
-  padding: 22px;
-  background: #fafafa;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 25px;
+  background: #FAFAFA;
 }
 
 fieldset legend {
+  padding: 0 12px;
   font-weight: 600;
-  padding: 0 10px;
   color: var(--text-muted);
 }
 
-/* CHECKBOX / RADIO */
+/* =========================
+   CHECKBOX / RADIO
+========================= */
 input[type="checkbox"],
 input[type="radio"] {
   transform: scale(1.1);
   margin-right: 6px;
 }
 
-/* BOTÕES */
+/* =========================
+   BOTÕES
+========================= */
 button,
 input[type="submit"] {
   background: var(--primary);
   color: #fff;
   border: none;
-  padding: 14px 30px;
+  padding: 14px 34px;
   font-size: 15px;
   font-weight: 600;
   border-radius: 999px;
@@ -158,7 +176,7 @@ input[type="submit"]:hover {
   transform: translateY(-1px);
 }
 
-/* BOTÕES SECUNDÁRIOS */
+/* BOTÃO SECUNDÁRIO */
 button.secondary {
   background: #e6e6e6;
   color: #333;
@@ -168,15 +186,19 @@ button.secondary:hover {
   background: #d8d8d8;
 }
 
-/* SEPARADORES */
+/* =========================
+   SEPARADORES
+========================= */
 hr {
   border: none;
   height: 1px;
-  background: rgba(0,0,0,0.08);
+  background: rgba(0, 0, 0, 0.08);
   margin: 45px 0;
 }
 
-/* MENSAGENS */
+/* =========================
+   MENSAGENS
+========================= */
 .alert,
 .notice {
   padding: 15px 20px;
@@ -186,19 +208,39 @@ hr {
 }
 
 .alert {
-  background: #fbe9ee;
-  color: #7a1e3a;
+  background: #FBE9EE;
+  color: var(--primary);
 }
 
 .notice {
-  background: #eef3f8;
-  color: #1e2a3a;
+  background: #EEF3F8;
+  color: #1E2A3A;
 }
 
-/* RESPONSIVO */
+/* =========================
+   BOTÃO FINAL (GERAR PROPOSTA)
+========================= */
+form input[type="submit"] {
+  display: block;
+  margin: 50px auto 0;
+}
+
+/* =========================
+   REMOVER ÍCONES / DECORAÇÕES HERDADAS
+========================= */
+.formulario-body::before,
+.formulario-body::after,
+.formulario-body *::before,
+.formulario-body *::after {
+  content: none !important;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
 @media (max-width: 768px) {
   form {
-    padding: 25px;
+    padding: 28px;
   }
 
   form h1 {
@@ -209,14 +251,3 @@ hr {
     font-size: 20px;
   }
 }
-
-
-
-/* REMOVE ÍCONES / ELEMENTOS DECORATIVOS HERDADOS NO FORMULÁRIO */
-.formulario-body::before,
-.formulario-body::after,
-.formulario-body *::before,
-.formulario-body *::after {
-  content: none !important;
-}
-
