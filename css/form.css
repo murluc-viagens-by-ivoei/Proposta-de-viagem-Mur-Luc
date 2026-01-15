@@ -1,43 +1,63 @@
 /* ======================================================
-   FORMULÁRIO – ESTILO VISUAL
-   Não altera estrutura, apenas aparência
+   FORMULÁRIO – ESTILO LUXO SUAVE
+   Apenas aparência – NÃO altera estrutura
 ====================================================== */
 
-/* RESET SUAVE */
+/* VARIÁVEIS DE COR */
+:root {
+  --primary: #7A1E3A;        /* vinho elegante */
+  --primary-dark: #64192F;
+  --accent: #C9A24D;         /* dourado fosco */
+
+  --bg-main: #F7F6F3;
+  --bg-card: #FFFFFF;
+
+  --text-main: #2B2B2B;
+  --text-muted: #6B6B6B;
+}
+
+/* FUNDO GERAL */
+body.formulario-body {
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+/* FORMULÁRIO */
 form {
   max-width: 1100px;
-  margin: 40px auto;
-  padding: 32px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin: 50px auto;
+  padding: 40px;
+  background: var(--bg-card);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* TÍTULOS */
 form h1,
 form h2,
 form h3 {
-  margin-bottom: 16px;
-  color: #2a2a2a;
+  color: var(--primary);
   font-weight: 600;
 }
 
 form h1 {
-  font-size: 28px;
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 form h2 {
   font-size: 22px;
-  margin-top: 40px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 8px;
+  margin-top: 45px;
+  border-bottom: 2px solid rgba(0,0,0,0.08);
+  padding-bottom: 10px;
 }
 
 /* GRUPOS */
 .form-group,
 .form-row,
 fieldset {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 /* LABELS */
@@ -45,7 +65,7 @@ label {
   display: block;
   font-size: 14px;
   font-weight: 600;
-  color: #444;
+  color: var(--text-muted);
   margin-bottom: 6px;
 }
 
@@ -57,12 +77,12 @@ input[type="date"],
 select,
 textarea {
   width: 100%;
-  padding: 12px 14px;
-  font-size: 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background: #fafafa;
-  transition: all 0.2s ease;
+  padding: 13px 15px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
 textarea {
@@ -75,36 +95,36 @@ input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: #e51b57;
-  background: #fff;
-  box-shadow: 0 0 0 2px rgba(229, 27, 87, 0.15);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(201, 162, 77, 0.18);
 }
 
 /* FILE INPUT */
 input[type="file"] {
   padding: 10px;
   background: #fff;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-/* LINHAS (2 ou 3 COLUNAS) */
+/* GRID RESPONSIVO */
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
 }
 
 /* FIELDSET */
 fieldset {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 22px;
+  background: #fafafa;
 }
 
 fieldset legend {
   font-weight: 600;
-  padding: 0 8px;
-  color: #555;
+  padding: 0 10px;
+  color: var(--text-muted);
 }
 
 /* CHECKBOX / RADIO */
@@ -117,64 +137,64 @@ input[type="radio"] {
 /* BOTÕES */
 button,
 input[type="submit"] {
-  background: #e51b57;
+  background: var(--primary);
   color: #fff;
   border: none;
-  padding: 14px 24px;
+  padding: 14px 30px;
   font-size: 15px;
   font-weight: 600;
-  border-radius: 10px;
+  border-radius: 999px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 button:hover,
 input[type="submit"]:hover {
-  background: #cc184d;
+  background: var(--primary-dark);
   transform: translateY(-1px);
 }
 
 /* BOTÕES SECUNDÁRIOS */
 button.secondary {
-  background: #eee;
+  background: #e6e6e6;
   color: #333;
 }
 
 button.secondary:hover {
-  background: #ddd;
+  background: #d8d8d8;
 }
 
 /* SEPARADORES */
 hr {
   border: none;
   height: 1px;
-  background: #eee;
-  margin: 40px 0;
+  background: rgba(0,0,0,0.08);
+  margin: 45px 0;
 }
 
 /* MENSAGENS */
 .alert,
 .notice {
-  padding: 14px 18px;
-  border-radius: 8px;
+  padding: 15px 20px;
+  border-radius: 12px;
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .alert {
-  background: #ffe5eb;
-  color: #a4002a;
+  background: #fbe9ee;
+  color: #7a1e3a;
 }
 
 .notice {
-  background: #e7f3ff;
-  color: #004a80;
+  background: #eef3f8;
+  color: #1e2a3a;
 }
 
 /* RESPONSIVO */
 @media (max-width: 768px) {
   form {
-    padding: 20px;
+    padding: 25px;
   }
 
   form h1 {
