@@ -122,6 +122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const hotelDots = document.getElementById("carrossel-dots-hotel");
   const hotelCounter = document.getElementById("carrossel-counter-hotel");
 
+
   function renderHotel() {
     if (!hotelBox || hotelImages.length === 0) return;
 
@@ -155,6 +156,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentHotel = (currentHotel + 1) % hotelImages.length;
     renderHotel();
   };
+
+  const hotelCarrossel = document.getElementById("carrossel-hotel");
+
+  if (hotelCarrossel) {
+    const arrowLeftHotel = document.createElement("button");
+    arrowLeftHotel.className = "carrossel-arrow left";
+    arrowLeftHotel.innerHTML = `<span>❮</span>`;
+    arrowLeftHotel.onclick = () => window.prevSlideHotel();
+
+    const arrowRightHotel = document.createElement("button");
+    arrowRightHotel.className = "carrossel-arrow right";
+    arrowRightHotel.innerHTML = `<span>❯</span>`;
+    arrowRightHotel.onclick = () => window.nextSlideHotel();
+
+    hotelCarrossel.appendChild(arrowLeftHotel);
+    hotelCarrossel.appendChild(arrowRightHotel);
+  }
+
+
 
   aplicarSwipe(hotelBox, window.prevSlideHotel, window.nextSlideHotel);
   renderHotel();
@@ -197,6 +217,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         const counter = document.createElement("div");
         counter.className = "carrossel-counter";
 
+        const prev = () => {
+          current = (current - 1 + imagens.length) % imagens.length;
+          renderDestino();
+        };
+
+        const next = () => {
+          current = (current + 1) % imagens.length;
+          renderDestino();
+        };
+
+        // ✅ AGORA SIM: SETAS
+        const arrowLeft = document.createElement("button");
+        arrowLeft.className = "carrossel-arrow left";
+        arrowLeft.innerHTML = `<span>❮</span>`;
+        arrowLeft.onclick = prev;
+
+        const arrowRight = document.createElement("button");
+        arrowRight.className = "carrossel-arrow right";
+        arrowRight.innerHTML = `<span>❯</span>`;
+        arrowRight.onclick = next;
+
         function renderDestino() {
           imgs.innerHTML = "";
           dots.innerHTML = "";
@@ -219,22 +260,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           counter.textContent = `${current + 1} / ${imagens.length}`;
         }
 
-        const prev = () => {
-          current = (current - 1 + imagens.length) % imagens.length;
-          renderDestino();
-        };
-
-        const next = () => {
-          current = (current + 1) % imagens.length;
-          renderDestino();
-        };
-
         aplicarSwipe(imgs, prev, next);
 
-        carrossel.append(imgs, dots, counter);
+        carrossel.append(imgs, dots, counter, arrowLeft, arrowRight);
         page.appendChild(carrossel);
         renderDestino();
       }
+
 
       destinosContainer.appendChild(page);
     });
