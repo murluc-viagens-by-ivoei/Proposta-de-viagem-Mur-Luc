@@ -193,13 +193,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       page.style.display = "block";
 
       page.innerHTML = `
-        <img src="./assets/logo.png" class="logo">
-        <h1>Destino ${index + 1}: ${destino.nome || ""}</h1>
-        <div class="bloco">
-          <h2>Passeios</h2>
-          <p>${destino.passeios || ""}</p>
-        </div>
-      `;
+  <img src="./assets/logo.png" class="logo">
+  <h1>Destino ${index + 1}: ${destino.nome || ""}</h1>
+  <div class="bloco">
+    <h2>Passeios</h2>
+    <p>${destino.passeios || ""}</p>
+  </div>
+  <div class="bloco">
+    <h2>Dicas</h2>
+    <p>${destino.dicas || ""}</p>
+  </div>
+`;
+
+
 
       if (destino.imagens?.length) {
         let current = 0;
