@@ -49,6 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const div = document.createElement("div");
     div.className = "destino-item";
 
+    // =========================
+    // REMOVIDO: Campo Dicas
+    // =========================
     div.innerHTML = `
       <h3>Destino ${index}</h3>
 
@@ -57,9 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       <label>Passeios:</label>
       <textarea class="destino-passeios"></textarea>
-
-      <label>Dicas:</label>
-      <textarea class="destino-dicas"></textarea>
 
       <label>Imagens do destino:</label>
       <div class="destino-carrossel-container"></div>
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         enderecoCampo: document.getElementById("enderecoCampo")?.value || "",
         descricaoCampo: document.getElementById("descricaoCampo")?.value || "",
         hotelServicosCampo: document.getElementById("hotelServicosCampo")?.value || "",
-        dicasCampo: document.getElementById("dicasCampo")?.value || "",
+        dicasCampo: document.getElementById("dicasCampo")?.value || "", // DICAS GERAIS PERMANECE
         valorHotel: Number(document.getElementById("valorHotel")?.value || 0),
         valorAereo: Number(document.getElementById("valorAereo")?.value || 0),
         valorTraslado: Number(document.getElementById("valorTraslado")?.value || 0),
@@ -131,10 +131,10 @@ document.addEventListener("DOMContentLoaded", () => {
           if (i.value) imagens.push(i.value);
         });
 
+        // ✅ REMOVIDO: dicas de cada destino
         dados.destinosMultiplos.push({
           nome: div.querySelector(".destino-nome")?.value || "",
           passeios: div.querySelector(".destino-passeios")?.value || "",
-          dicas: div.querySelector(".destino-dicas")?.value || "",
           imagens
         });
       });
