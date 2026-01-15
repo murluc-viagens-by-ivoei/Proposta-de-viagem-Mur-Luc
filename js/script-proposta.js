@@ -25,6 +25,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (el) el.textContent = value || "";
   };
 
+  const setTextMultiline = (id, value) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = value || "";
+    el.style.whiteSpace = "pre-line";
+  };
+
   const setImg = (id, url) => {
     const img = document.getElementById(id);
     if (!img) return;
@@ -35,6 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       img.style.display = "none";
     }
   };
+
+
+
 
   const formatarMoedaBR = (valor) => {
     if (valor === null || valor === undefined || valor === "") return "R$ 0,00";
@@ -64,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   setText("descricaoCampo", dados.descricaoCampo);
   setText("hotelServicosCampo", dados.hotelServicosCampo);
   setText("enderecoCampo", dados.enderecoCampo);
-  setText("dicasCampo", dados.dicasCampo);
+  setTextMultiline("dicasCampo", dados.dicasCampo);
 
   // ===============================
   // CARROSSEL DO HOTEL
@@ -216,7 +226,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         dicas.className = "bloco";
         dicas.innerHTML = `
           <h2>Dicas</h2>
-          <p>${destino.dicas || ""}</p>
+          <p style="white-space: pre-line;">${destino.dicas || ""}</p>
+
         `;
         page.appendChild(dicas);
       }
