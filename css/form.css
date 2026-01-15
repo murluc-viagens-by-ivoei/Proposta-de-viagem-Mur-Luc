@@ -1,161 +1,207 @@
 /* ======================================================
-   FORMULÁRIO DE PROPOSTA – BASE ORIGINAL (REFATORADO)
-   Extraído do <style> do HTML
-   NÃO altera estrutura nem JS
+   FORMULÁRIO – ESTILO LUXO SUAVE
+   Apenas aparência – NÃO altera estrutura
 ====================================================== */
 
-/* =========================
-   FUNDO E BASE
-========================= */
+/* VARIÁVEIS DE COR */
+:root {
+  --primary: #7A1E3A;        /* vinho elegante */
+  --primary-dark: #64192F;
+  --accent: #C9A24D;         /* dourado fosco */
+
+  --bg-main: #F7F6F3;
+  --bg-card: #FFFFFF;
+
+  --text-main: #2B2B2B;
+  --text-muted: #6B6B6B;
+}
+
+/* FUNDO GERAL */
 body.formulario-body {
-  font-family: "Inter", Arial, sans-serif;
-  background: #f5f7fb;
-  margin: 0;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
+  background: var(--bg-main);
+  color: var(--text-main);
 }
 
-/* =========================
-   CONTAINER
-========================= */
-.page {
-  width: 100%;
-  max-width: 900px;
-}
-
-/* =========================
-   FORMULÁRIO
-========================= */
+/* FORMULÁRIO */
 form {
-  width: 100%;
-  background: #fff;
-  padding: 35px 40px;
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 40px;
+  background: var(--bg-card);
   border-radius: 18px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* =========================
-   TÍTULOS
-========================= */
+/* TÍTULOS */
+form h1,
+form h2,
+form h3 {
+  color: var(--primary);
+  font-weight: 600;
+}
+
 form h1 {
+  font-size: 30px;
   text-align: center;
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0 auto 25px auto;
-  color: #1a1a1a;
+  margin-bottom: 40px;
 }
 
 form h2 {
   font-size: 22px;
-  margin-top: 20px;
-  margin-bottom: 0;
-  color: #1f3b73;
-  border-left: 5px solid #4b6fff;
-  padding-left: 10px;
+  margin-top: 45px;
+  border-bottom: 2px solid rgba(0,0,0,0.08);
+  padding-bottom: 10px;
 }
 
-form h3 {
-  margin: 10px 0 8px;
-  font-size: 16px;
-  color: #1f3b73;
+/* GRUPOS */
+.form-group,
+.form-row,
+fieldset {
+  margin-bottom: 22px;
 }
 
-/* =========================
-   LABELS
-========================= */
+/* LABELS */
 label {
-  font-weight: 600;
-  font-size: 15px;
   display: block;
-  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+/* INPUTS / SELECT / TEXTAREA */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 13px 15px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* FOCO */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(201, 162, 77, 0.18);
+}
+
+/* FILE INPUT */
+input[type="file"] {
+  padding: 10px;
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* GRID RESPONSIVO */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+/* FIELDSET */
+fieldset {
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 22px;
+  background: #fafafa;
+}
+
+fieldset legend {
+  font-weight: 600;
+  padding: 0 10px;
+  color: var(--text-muted);
+}
+
+/* CHECKBOX / RADIO */
+input[type="checkbox"],
+input[type="radio"] {
+  transform: scale(1.1);
+  margin-right: 6px;
+}
+
+/* BOTÕES */
+button,
+input[type="submit"] {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 14px 30px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* BOTÕES SECUNDÁRIOS */
+button.secondary {
+  background: #e6e6e6;
   color: #333;
 }
 
-/* =========================
-   INPUTS / TEXTAREA
-========================= */
-input,
-textarea {
-  width: 100%;
-  padding: 12px 14px;
-  font-size: 15px;
-  border: 1.8px solid #cfd6e6;
-  border-radius: 10px;
-  box-sizing: border-box;
+button.secondary:hover {
+  background: #d8d8d8;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 44px;
-}
-
-/* =========================
-   GRIDS
-========================= */
-.grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-}
-
-/* =========================
-   BOTÃO
-========================= */
-button,
-input[type="submit"] {
-  margin-top: 20px;
-  padding: 14px;
-  font-size: 18px;
-  font-weight: 600;
-  background: #4b6fff;
-  color: #fff;
+/* SEPARADORES */
+hr {
   border: none;
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 45px 0;
+}
+
+/* MENSAGENS */
+.alert,
+.notice {
+  padding: 15px 20px;
   border-radius: 12px;
-  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 22px;
 }
 
-/* =========================
-   CAMPO DICAS
-========================= */
-#dicasCampo {
-  line-height: 1;
+.alert {
+  background: #fbe9ee;
+  color: #7a1e3a;
 }
 
-/* =========================
-   RESPONSIVO
-========================= */
+.notice {
+  background: #eef3f8;
+  color: #1e2a3a;
+}
+
+/* RESPONSIVO */
 @media (max-width: 768px) {
-  body.formulario-body {
-    padding: 20px;
-  }
-
-  .grid-2,
-  .grid-3,
-  .grid-4 {
-    grid-template-columns: 1fr;
-  }
-
   form {
     padding: 25px;
   }
 
   form h1 {
-    font-size: 26px;
+    font-size: 24px;
+  }
+
+  form h2 {
+    font-size: 20px;
   }
 }
