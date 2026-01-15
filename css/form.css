@@ -166,13 +166,14 @@ input[type="submit"] {
 ====================================================== */
 
 body.formulario-body {
-    all: unset;
     font-family: "Inter", Arial, sans-serif;
     background: #f5f7fb;
+    margin: 0;
+    padding: 40px;
     display: flex;
     justify-content: center;
-    padding: 40px;
 }
+
 
 /* restaura box model */
 body.formulario-body *,
