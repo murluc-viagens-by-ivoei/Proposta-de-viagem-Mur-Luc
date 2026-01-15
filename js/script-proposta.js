@@ -1,3 +1,4 @@
+// script-proposta.js
 import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -15,9 +16,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+  // ===============================
+  // HELPERS
+  // ===============================
   const setText = (id, value) => {
     const el = document.getElementById(id);
     if (el) el.textContent = value || "";
+  };
+
+  const setTextMultiline = (id, value) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = value || "";
+    el.style.whiteSpace = "pre-line";
   };
 
   const setImg = (id, url) => {
@@ -33,12 +44,53 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const formatarMoedaBR = (valor) => {
     if (valor === null || valor === undefined || valor === "") return "R$ 0,00";
+
     return Number(valor).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
       minimumFractionDigits: 2
     });
   };
+
+  // ===============================
+  // FUNÇÃO UNIVERSAL DE SWIPE
+  // ===============================
+  function aplicarSwipe(elemento, onPrev, onNext) {
+    let startX = 0;
+    let isDown = false;
+
+    // Touch
+    elemento.addEventListener("touchstart", e => {
+      startX = e.touches[0].clientX;
+    });
+
+    elemento.addEventListener("touchend", e => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - startX;
+
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? onPrev() : onNext();
+      }
+    });
+
+    // Mouse
+    elemento.addEventListener("mousedown", e => {
+      isDown = true;
+      startX = e.clientX;
+      elemento.style.cursor = "grabbing";
+    });
+
+    window.addEventListener("mouseup", e => {
+      if (!isDown) return;
+      isDown = false;
+      elemento.style.cursor = "grab";
+
+      const diff = e.clientX - startX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? onPrev() : onNext();
+      }
+    });
+  }
 
   // ===============================
   // DADOS PRINCIPAIS
@@ -58,6 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   setText("descricaoCampo", dados.descricaoCampo);
   setText("hotelServicosCampo", dados.hotelServicosCampo);
   setText("enderecoCampo", dados.enderecoCampo);
+  setTextMultiline("dicasCampo", dados.dicasCampo);
 
   // ===============================
   // CARROSSEL DO HOTEL
@@ -68,6 +121,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const hotelBox = document.getElementById("carrossel-images-hotel");
   const hotelDots = document.getElementById("carrossel-dots-hotel");
   const hotelCounter = document.getElementById("carrossel-counter-hotel");
+
 
   function renderHotel() {
     if (!hotelBox || hotelImages.length === 0) return;
@@ -103,6 +157,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderHotel();
   };
 
+  const hotelCarrossel = document.getElementById("carrossel-hotel");
+
+  if (hotelCarrossel) {
+    const arrowLeftHotel = document.createElement("button");
+    arrowLeftHotel.className = "carrossel-arrow left";
+    arrowLeftHotel.innerHTML = `<span>❮</span>`;
+    arrowLeftHotel.onclick = () => window.prevSlideHotel();
+
+    const arrowRightHotel = document.createElement("button");
+    arrowRightHotel.className = "carrossel-arrow right";
+    arrowRightHotel.innerHTML = `<span>❯</span>`;
+    arrowRightHotel.onclick = () => window.nextSlideHotel();
+
+    hotelCarrossel.appendChild(arrowLeftHotel);
+    hotelCarrossel.appendChild(arrowRightHotel);
+  }
+
+
+
+  aplicarSwipe(hotelBox, window.prevSlideHotel, window.nextSlideHotel);
   renderHotel();
 
   // ===============================
@@ -153,6 +227,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           renderDestino();
         };
 
+        // ✅ AGORA SIM: SETAS
         const arrowLeft = document.createElement("button");
         arrowLeft.className = "carrossel-arrow left";
         arrowLeft.innerHTML = `<span>❮</span>`;
@@ -185,10 +260,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           counter.textContent = `${current + 1} / ${imagens.length}`;
         }
 
+        aplicarSwipe(imgs, prev, next);
+
         carrossel.append(imgs, dots, counter, arrowLeft, arrowRight);
         page.appendChild(carrossel);
         renderDestino();
       }
+
 
       destinosContainer.appendChild(page);
     });
@@ -231,5 +309,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     itemsList.appendChild(totalRow);
   }
 
-  console.log("✅ Proposta renderizada sem campo dicas.");
+  console.log("✅ Proposta renderizada com swipe (mobile + desktop)");
 });

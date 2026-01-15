@@ -36,20 +36,17 @@ body {
 ================================ */
 .page {
     width: 210mm;
-    min-height: 297mm;
-    /* ✅ em vez de height */
-    height: auto;
-    /* ✅ permite crescer */
+    height: 297mm;
     background: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, .2);
     position: relative;
     box-sizing: border-box;
     padding: 20mm 15mm;
 
+    /* CONTROLE DE QUEBRA */
     page-break-after: always;
     break-after: page;
 }
-
 
 .page:last-child {
     page-break-after: auto;
@@ -218,9 +215,8 @@ body {
 #dicasCampo {
     font-size: 16px;
     line-height: 1.6;
-    margin-top: 20px;
+    margin-top: 15px;
 }
-
 
 #dicasCampo .dica-item {
     display: flex;
@@ -444,14 +440,6 @@ body {
     }
 }
 
-/* Evita que o carrossel empurre o conteúdo seguinte */
-#carrossel-hotel,
-#dicasCampo {
-    break-inside: avoid;
-    page-break-inside: avoid;
-}
-
-
 /* ================================
    ESTILOS DO FORMULÁRIO (index.html)
 ================================ */
@@ -555,7 +543,9 @@ body.formulario-body {
     cursor: pointer;
 }
 
-
+#dicasCampo {
+    line-height: 1.0;
+}
 
 /* ESTILOS ADICIONADOS PARA OS NOVOS DESTINOS DINÂMICOS */
 .destino-item {
@@ -762,6 +752,10 @@ body.formulario-body {
 }
 
 /* ESTILOS ADICIONAIS PARA DESTINOS DINÂMICOS (proposta.html) */
+.destino-pagina {
+    display: none;
+    /* Inicialmente escondido */
+}
 
 .destino-nome-titulo {
     color: #1f3b73;
@@ -794,6 +788,14 @@ body.formulario-body {
     border-radius: 8px;
 }
 
+.destino-pagina {
+    display: block;
+    page-break-before: always;
+    padding: 40px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
 .destino-carrossel {
     margin-top: 30px;
     position: relative;
@@ -806,23 +808,15 @@ body.formulario-body {
     font-style: italic;
 }
 
-/* ================================
-   DESTINOS MÚLTIPLOS — BASE LIMPA
-================================ */
-.destino-pagina {
-    display: block;
-    position: relative;
-    padding: 20mm 15mm;
-    box-sizing: border-box;
+/* DESTINOS MÚLTIPLOS */
 
-    /* controle correto de quebra */
+.destino-pagina {
+    display: block !important;
     page-break-before: always;
     break-before: page;
-
-    /* permite crescer */
-    min-height: auto;
+    padding: 20mm 15mm;
+    position: relative;
 }
-
 
 .destino-nome-titulo {
     font-size: 34px;
@@ -896,60 +890,60 @@ body.formulario-body {
 ================================ */
 
 .carrossel {
-    position: relative;
+  position: relative;
 }
 
 .carrossel-arrow {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 15%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 10;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 15%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .carrossel-arrow.left {
-    left: 0;
+  left: 0;
 }
 
 .carrossel-arrow.right {
-    right: 0;
+  right: 0;
 }
 
 .carrossel-arrow::before {
-    content: '';
+  content: '';
 }
 
 .carrossel-arrow:hover {
-    background: rgba(0, 0, 0, 0.04);
+  background: rgba(0, 0, 0, 0.04);
 }
 
 /* Ícone da seta */
 .carrossel-arrow span {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 36px;
-    color: rgba(255, 255, 255, 0.75);
-    pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 36px;
+  color: rgba(255, 255, 255, 0.75);
+  pointer-events: none;
 }
 
 .carrossel-arrow.left span {
-    left: 15px;
+  left: 15px;
 }
 
 .carrossel-arrow.right span {
-    right: 15px;
+  right: 15px;
 }
 
 /* Mobile: setas mais sutis */
 @media (max-width: 768px) {
-    .carrossel-arrow span {
-        font-size: 28px;
-        color: rgba(255, 255, 255, 0.6);
-    }
+  .carrossel-arrow span {
+    font-size: 28px;
+    color: rgba(255, 255, 255, 0.6);
+  }
 }
 
 /* ===========================
@@ -960,29 +954,4 @@ body.formulario-body {
 #carrossel-hotel .carrossel-prev,
 #carrossel-hotel .carrossel-next {
     display: none !important;
-}
-
-/* ================================
-   CORREÇÃO — DICAS DOS DESTINOS
-   (NÃO afeta Dicas Importantes)
-================================ */
-
-/* Garante que o bloco de dicas do destino apareça */
-.destino-pagina .dicas,
-.destino-pagina .bloco.dicas {
-    display: block;
-    margin-top: 20px;
-    break-inside: auto;
-    page-break-inside: auto;
-}
-
-/* Impede que o carrossel empurre as dicas para fora */
-.destino-pagina .carrossel {
-    margin-bottom: 25px;
-}
-
-/* Permite quebra ENTRE carrossel e dicas, se necessário */
-.destino-pagina {
-    break-inside: auto;
-    page-break-inside: auto;
 }
