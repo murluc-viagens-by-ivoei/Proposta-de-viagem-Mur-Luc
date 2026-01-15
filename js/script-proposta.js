@@ -1,4 +1,3 @@
-// script-proposta.js
 import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -122,7 +121,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const hotelDots = document.getElementById("carrossel-dots-hotel");
   const hotelCounter = document.getElementById("carrossel-counter-hotel");
 
-
   function renderHotel() {
     if (!hotelBox || hotelImages.length === 0) return;
 
@@ -173,8 +171,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     hotelCarrossel.appendChild(arrowLeftHotel);
     hotelCarrossel.appendChild(arrowRightHotel);
   }
-
-
 
   aplicarSwipe(hotelBox, window.prevSlideHotel, window.nextSlideHotel);
   renderHotel();
@@ -227,7 +223,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           renderDestino();
         };
 
-        // ✅ AGORA SIM: SETAS
         const arrowLeft = document.createElement("button");
         arrowLeft.className = "carrossel-arrow left";
         arrowLeft.innerHTML = `<span>❮</span>`;
@@ -267,6 +262,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderDestino();
       }
 
+      // ===============================
+      // ✅ BLOCO DE DICAS POR DESTINO
+      // ===============================
+      if (destino.dicas && destino.dicas.trim() !== "") {
+        const dicasDiv = document.createElement("div");
+        dicasDiv.className = "bloco dicas";
+        dicasDiv.innerHTML = `
+          <h2>Dicas</h2>
+          <p>${destino.dicas}</p>
+        `;
+        page.appendChild(dicasDiv);
+      }
 
       destinosContainer.appendChild(page);
     });
