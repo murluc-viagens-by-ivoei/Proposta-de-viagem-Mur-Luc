@@ -945,3 +945,13 @@ body.formulario-body {
     color: rgba(255, 255, 255, 0.6);
   }
 }
+
+/* ===========================
+   REMOVE SETA PADRÃO DE CONTROLE
+============================ */
+
+/* Esconde os botões de controle originais do carrossel da hospedagem */
+#carrossel-hotel .carrossel-prev,
+#carrossel-hotel .carrossel-next {
+    display: none !important;
+}
