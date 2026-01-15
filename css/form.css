@@ -43,8 +43,12 @@ form h3 {
 form h1 {
   font-size: 30px;
   text-align: center;
-  margin-bottom: 40px;
+  width: 100%;
+  margin: 0 auto 40px auto;
+  color: var(--primary);
+  font-weight: 600;
 }
+
 
 form h2 {
   font-size: 22px;
@@ -205,3 +209,14 @@ hr {
     font-size: 20px;
   }
 }
+
+
+
+/* REMOVE ÍCONES / ELEMENTOS DECORATIVOS HERDADOS NO FORMULÁRIO */
+.formulario-body::before,
+.formulario-body::after,
+.formulario-body *::before,
+.formulario-body *::after {
+  content: none !important;
+}
+
