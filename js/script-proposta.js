@@ -1,5 +1,4 @@
 // script-proposta.js
-
 import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -43,9 +42,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
-
-
-
   const formatarMoedaBR = (valor) => {
     if (valor === null || valor === undefined || valor === "") return "R$ 0,00";
 
@@ -55,6 +51,46 @@ document.addEventListener("DOMContentLoaded", async () => {
       minimumFractionDigits: 2
     });
   };
+
+  // ===============================
+  // FUNÇÃO UNIVERSAL DE SWIPE
+  // ===============================
+  function aplicarSwipe(elemento, onPrev, onNext) {
+    let startX = 0;
+    let isDown = false;
+
+    // Touch
+    elemento.addEventListener("touchstart", e => {
+      startX = e.touches[0].clientX;
+    });
+
+    elemento.addEventListener("touchend", e => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - startX;
+
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? onPrev() : onNext();
+      }
+    });
+
+    // Mouse
+    elemento.addEventListener("mousedown", e => {
+      isDown = true;
+      startX = e.clientX;
+      elemento.style.cursor = "grabbing";
+    });
+
+    window.addEventListener("mouseup", e => {
+      if (!isDown) return;
+      isDown = false;
+      elemento.style.cursor = "grab";
+
+      const diff = e.clientX - startX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? onPrev() : onNext();
+      }
+    });
+  }
 
   // ===============================
   // DADOS PRINCIPAIS
@@ -90,7 +126,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!hotelBox || hotelImages.length === 0) return;
 
     hotelBox.innerHTML = "";
-    if (hotelDots) hotelDots.innerHTML = "";
+    hotelDots.innerHTML = "";
 
     hotelImages.forEach((url, i) => {
       const img = document.createElement("img");
@@ -98,70 +134,59 @@ document.addEventListener("DOMContentLoaded", async () => {
       img.className = "carrossel-image" + (i === currentHotel ? " active" : "");
       hotelBox.appendChild(img);
 
-      if (hotelDots) {
-        const dot = document.createElement("span");
-        dot.className = "carrossel-dot" + (i === currentHotel ? " active" : "");
-        dot.onclick = () => {
-          currentHotel = i;
-          renderHotel();
-        };
-        hotelDots.appendChild(dot);
-      }
+      const dot = document.createElement("span");
+      dot.className = "carrossel-dot" + (i === currentHotel ? " active" : "");
+      dot.onclick = () => {
+        currentHotel = i;
+        renderHotel();
+      };
+      hotelDots.appendChild(dot);
     });
 
-    if (hotelCounter) {
-      hotelCounter.textContent = `${currentHotel + 1} / ${hotelImages.length}`;
-    }
+    hotelCounter.textContent = `${currentHotel + 1} / ${hotelImages.length}`;
   }
 
   window.prevSlideHotel = () => {
-    if (hotelImages.length === 0) return;
     currentHotel = (currentHotel - 1 + hotelImages.length) % hotelImages.length;
     renderHotel();
   };
 
   window.nextSlideHotel = () => {
-    if (hotelImages.length === 0) return;
     currentHotel = (currentHotel + 1) % hotelImages.length;
     renderHotel();
   };
 
+  aplicarSwipe(hotelBox, window.prevSlideHotel, window.nextSlideHotel);
   renderHotel();
 
   // ===============================
   // MULTIDESTINOS
   // ===============================
   const destinosContainer = document.getElementById("destinos-container");
-  if (destinosContainer && dados.destinosMultiplos && dados.destinosMultiplos.length > 0) {
-    destinosContainer.innerHTML = ""; // Limpa container antes de adicionar
+
+  if (destinosContainer && dados.destinosMultiplos?.length) {
+    destinosContainer.innerHTML = "";
 
     dados.destinosMultiplos.forEach((destino, index) => {
-      // Na seção MULTIDESTINOS, após criar a página:
       const page = document.createElement("div");
       page.className = "page destino-pagina";
-
-      // ADICIONE ESTA LINHA para garantir visibilidade:
       page.style.display = "block";
 
       page.innerHTML = `
-  <img src="./assets/logo.png" class="logo">
-  <h1 class="destino-nome-titulo">
-    Destino ${index + 1}: ${destino.nome || ""}
-  </h1>
-
-  <div class="bloco">
+        <img src="./assets/logo.png" class="logo">
+        <h1>Destino ${index + 1}: ${destino.nome || ""}</h1>
+        <div class="bloco">
           <h2>Passeios</h2>
           <p>${destino.passeios || ""}</p>
         </div>
       `;
 
-      // === CARROSSEL DO DESTINO ===
-      if (destino.imagens && destino.imagens.length > 0) {
-        const imagens = destino.imagens.filter(Boolean);
+      if (destino.imagens?.length) {
         let current = 0;
+        const imagens = destino.imagens.filter(Boolean);
 
         const carrossel = document.createElement("div");
-        carrossel.className = "destino-carrossel carrossel";
+        carrossel.className = "carrossel";
 
         const imgs = document.createElement("div");
         imgs.className = "carrossel-images";
@@ -194,42 +219,21 @@ document.addEventListener("DOMContentLoaded", async () => {
           counter.textContent = `${current + 1} / ${imagens.length}`;
         }
 
-        const controls = document.createElement("div");
-        controls.className = "carrossel-controls";
-
-        const prev = document.createElement("button");
-        prev.className = "carrossel-prev";
-        prev.textContent = "❮";
-        prev.onclick = () => {
+        const prev = () => {
           current = (current - 1 + imagens.length) % imagens.length;
           renderDestino();
         };
 
-        const next = document.createElement("button");
-        next.className = "carrossel-next";
-        next.textContent = "❯";
-        next.onclick = () => {
+        const next = () => {
           current = (current + 1) % imagens.length;
           renderDestino();
         };
 
-        controls.append(prev, dots, next);
-        carrossel.append(imgs, controls, counter);
+        aplicarSwipe(imgs, prev, next);
+
+        carrossel.append(imgs, dots, counter);
         page.appendChild(carrossel);
-
         renderDestino();
-      }
-
-      // === DICAS ===
-      if (destino.dicas) {
-        const dicas = document.createElement("div");
-        dicas.className = "bloco";
-        dicas.innerHTML = `
-          <h2>Dicas</h2>
-          <p style="white-space: pre-line;">${destino.dicas || ""}</p>
-
-        `;
-        page.appendChild(dicas);
       }
 
       destinosContainer.appendChild(page);
@@ -237,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ===============================
-  // VALORES (FORA DO FOREACH DOS DESTINOS!)
+  // VALORES
   // ===============================
   const itemsList = document.getElementById("itemsList");
   if (itemsList) {
@@ -254,28 +258,24 @@ document.addEventListener("DOMContentLoaded", async () => {
       const row = document.createElement("div");
       row.className = "row";
       row.innerHTML = `
-      <span class="label">${item.label}</span>
-      <span class="dots"></span>
-      <span class="price">${formatarMoedaBR(item.value)}</span>
-    `;
+        <span class="label">${item.label}</span>
+        <span class="dots"></span>
+        <span class="price">${formatarMoedaBR(item.value)}</span>
+      `;
       itemsList.appendChild(row);
     });
 
-    const total = valores.reduce(
-      (acc, cur) => acc + Number(cur.value || 0),
-      0
-    );
+    const total = valores.reduce((acc, cur) => acc + Number(cur.value || 0), 0);
 
     const totalRow = document.createElement("div");
     totalRow.className = "row total";
     totalRow.innerHTML = `
-    <span class="label">TOTAL</span>
-    <span class="dots"></span>
-    <span class="price">${formatarMoedaBR(total)}</span>
-  `;
+      <span class="label">TOTAL</span>
+      <span class="dots"></span>
+      <span class="price">${formatarMoedaBR(total)}</span>
+    `;
     itemsList.appendChild(totalRow);
   }
 
-
-  console.log("✅ Proposta renderizada com sucesso");
+  console.log("✅ Proposta renderizada com swipe (mobile + desktop)");
 });
