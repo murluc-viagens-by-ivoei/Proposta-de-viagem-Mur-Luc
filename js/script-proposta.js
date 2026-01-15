@@ -1,3 +1,4 @@
+// script-proposta.js
 import { buscarProposta } from "./storage.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -52,6 +53,46 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   // ===============================
+  // FUNÇÃO UNIVERSAL DE SWIPE
+  // ===============================
+  function aplicarSwipe(elemento, onPrev, onNext) {
+    let startX = 0;
+    let isDown = false;
+
+    // Touch
+    elemento.addEventListener("touchstart", e => {
+      startX = e.touches[0].clientX;
+    });
+
+    elemento.addEventListener("touchend", e => {
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - startX;
+
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? onPrev() : onNext();
+      }
+    });
+
+    // Mouse
+    elemento.addEventListener("mousedown", e => {
+      isDown = true;
+      startX = e.clientX;
+      elemento.style.cursor = "grabbing";
+    });
+
+    window.addEventListener("mouseup", e => {
+      if (!isDown) return;
+      isDown = false;
+      elemento.style.cursor = "grab";
+
+      const diff = e.clientX - startX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? onPrev() : onNext();
+      }
+    });
+  }
+
+  // ===============================
   // DADOS PRINCIPAIS
   // ===============================
   setText("destinoCampo", dados.destino);
@@ -69,8 +110,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   setText("descricaoCampo", dados.descricaoCampo);
   setText("hotelServicosCampo", dados.hotelServicosCampo);
   setText("enderecoCampo", dados.enderecoCampo);
-
-  // ✅ Dicas Gerais permanece intacta
   setTextMultiline("dicasCampo", dados.dicasCampo);
 
   // ===============================
@@ -82,6 +121,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const hotelBox = document.getElementById("carrossel-images-hotel");
   const hotelDots = document.getElementById("carrossel-dots-hotel");
   const hotelCounter = document.getElementById("carrossel-counter-hotel");
+
 
   function renderHotel() {
     if (!hotelBox || hotelImages.length === 0) return;
@@ -118,6 +158,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   const hotelCarrossel = document.getElementById("carrossel-hotel");
+
   if (hotelCarrossel) {
     const arrowLeftHotel = document.createElement("button");
     arrowLeftHotel.className = "carrossel-arrow left";
@@ -132,6 +173,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     hotelCarrossel.appendChild(arrowLeftHotel);
     hotelCarrossel.appendChild(arrowRightHotel);
   }
+
+
+
+  aplicarSwipe(hotelBox, window.prevSlideHotel, window.nextSlideHotel);
+  renderHotel();
 
   // ===============================
   // MULTIDESTINOS
@@ -155,7 +201,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       `;
 
-      // imagens do destino
       if (destino.imagens?.length) {
         let current = 0;
         const imagens = destino.imagens.filter(Boolean);
@@ -182,6 +227,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           renderDestino();
         };
 
+        // ✅ AGORA SIM: SETAS
         const arrowLeft = document.createElement("button");
         arrowLeft.className = "carrossel-arrow left";
         arrowLeft.innerHTML = `<span>❮</span>`;
@@ -215,10 +261,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         aplicarSwipe(imgs, prev, next);
+
         carrossel.append(imgs, dots, counter, arrowLeft, arrowRight);
         page.appendChild(carrossel);
         renderDestino();
       }
+
 
       destinosContainer.appendChild(page);
     });
