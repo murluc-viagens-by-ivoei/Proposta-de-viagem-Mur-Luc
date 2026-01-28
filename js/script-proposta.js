@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const valores = [
       { label: "Hotel", value: dados.valorHotel },
       { label: "Passagem Aérea", value: dados.valorAereo },
-      { label: "Traslado", value: dados.valorTraslado },
+      { label: "Traslado e Passeios", value: dados.valorTraslado },
       { label: "Seguro Viagem", value: dados.valorSeguro }
     ];
 
